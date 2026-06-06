@@ -152,27 +152,60 @@ Output: `app/dist/Computer Server Labs-<version>-win-x64.exe`
 
 ### Linux (AppImage / deb)
 
-**AppImage** needs `mksquashfs` (from `squashfs-tools`). **deb** needs Linux packaging tools. electron-builder cannot create AppImage on a plain Windows host — you will see:
+**Why you only see `linux-unpacked` on Windows:** AppImage needs `mksquashfs` and `.deb` needs `fakeroot`/`dpkg` — Linux-only tools. Running `package:linux` on Windows intentionally stops at the unpacked folder.
 
-```text
-mksquashfs: file does not exist
-failed to build AppImage
+| Platform | Install format | Build command |
+|----------|----------------|---------------|
+| **Steam Deck / SteamOS / most distros** | `.AppImage` | WSL or Linux (below) |
+| **Ubuntu / Debian / Pop!\_OS** | `.deb` | WSL or Linux (below) |
+| **Windows (smoke test only)** | `linux-unpacked/` folder | `npm --workspace app run package:linux` |
+
+**From Windows (WSL2 + Ubuntu)** — two-step (Vite on Windows, AppImage/deb in WSL):
+
+```powershell
+npm run package:linux:wsl
 ```
 
-| Where you build | Command | Output |
-|-----------------|---------|--------|
-| **Windows** (smoke test) | `npm --workspace app run package:linux` | `app/dist/linux-unpacked/` only |
-| **Linux / WSL / CI** | `npm --workspace app run package:linux:release` | AppImage + `.deb` |
+This runs `build:app` on Windows, then packages in Ubuntu WSL using that `app/out/` (avoids Rollup/npm issues on `/mnt/c/`).
 
-**WSL example** (Ubuntu, repo on `C:\Dev\SysAdminGame`):
+The script uses **Ubuntu** (not Docker Desktop’s WSL VM). If needed:
+
+```powershell
+wsl --set-default Ubuntu
+```
+
+Manual equivalent:
+
+```powershell
+npm run build:app
+npm run package:linux:wsl
+```
+
+For a full Linux-native build (CI or `~/SysAdminGame` clone), use `bash scripts/linux-package-release.sh` on native Linux ext4 — not required for typical Windows dev workflows.
+
+First time in Ubuntu you may need:
 
 ```bash
-cd /mnt/c/Dev/SysAdminGame
-npm install
-npm --workspace app run package:linux:release
+sudo apt-get update && sudo apt-get install -y squashfs-tools fakeroot dpkg build-essential python3
 ```
 
-Single targets: `package:linux:appimage` or `package:linux:deb`.
+**On Linux or inside WSL manually:**
+
+```bash
+cd /mnt/c/Dev/SysAdminGame   # or your clone path
+bash scripts/linux-package-release.sh
+```
+
+**Expected files in `app/dist/`:**
+
+```text
+Computer Server Labs-0.1.0-linux-x86_64.AppImage   # Steam Deck: copy to Desktop, chmod +x, run
+Computer Server Labs-0.1.0-linux-amd64.deb       # Ubuntu: sudo dpkg -i …deb
+```
+
+**CI:** GitHub Actions workflow `.github/workflows/package-linux.yml` (manual dispatch or version tags `v*`).
+
+Single targets: `npm --workspace app run package:linux:appimage` or `package:linux:deb` (on Linux/WSL only).
 
 ## Related docs
 

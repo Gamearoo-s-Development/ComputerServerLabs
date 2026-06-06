@@ -40,6 +40,7 @@ export default defineConfig({
   renderer: {
     root: resolve(__dirname, 'src/renderer'),
     publicDir: resolve(__dirname, 'src/renderer/public'),
+    base: './',
     resolve: {
       alias: {
         '@renderer': resolve(__dirname, 'src/renderer'),

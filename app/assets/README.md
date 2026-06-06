@@ -4,13 +4,11 @@ Application branding and icons bundled via `extraResources` when packaged.
 
 | File | Purpose |
 |------|---------|
-| `icon.png` | Square app icon (Windows/Linux installers, taskbar, favicon) |
-| `logo.png` | Wordmark for in-app sidebar (lives in `src/renderer/public/`) |
+| `icon.png` | Square **mark** (hex + flask only) — taskbar, favicon, collapsed sidebar |
+| `logo.png` | Full **wordmark** — expanded sidebar (`src/renderer/public/logo.png`) |
 
-Regenerate both from artwork:
+Regenerate the mark icon from the wordmark (does **not** overwrite `logo.png`):
 
 ```bash
-node scripts/install-brand-logo.mjs path/to/new-logo.png
+node scripts/install-brand-icons.mjs
 ```
-
-That updates logos, transparency, and all `icon.png` copies under `app/assets/`, `app/resources/`, etc.

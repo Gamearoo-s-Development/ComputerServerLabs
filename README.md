@@ -58,6 +58,14 @@ npm run build:app
 npm run build:website
 ```
 
+**Linux installers** (AppImage + deb) cannot be produced on Windows alone. From Windows use WSL:
+
+```bash
+npm run package:linux:wsl
+```
+
+Or run `bash scripts/linux-package-release.sh` on Linux / in WSL. See `app/docs/windows-build.md`.
+
 ## Shared package
 
 `@sysadmin-game/shared` holds workstation helpers, session network logic, branding constants, and `lab-format/lab.schema.json`. Both the app and website tooling import from this package via npm workspaces.

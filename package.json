@@ -14,6 +14,8 @@
     "dev:api": "npm --workspace website run dev:api",
     "build:app": "npm --workspace app run build",
     "build:website": "npm --workspace website run build",
+    "package:linux:wsl": "node scripts/package-linux-wsl.mjs",
+    "package:linux:release": "bash scripts/linux-package-release.sh",
     "start:app": "npm --workspace app run start",
     "lint:app": "npm --workspace app run lint",
     "validate:labs": "node scripts/validate-lab-catalog.mjs",

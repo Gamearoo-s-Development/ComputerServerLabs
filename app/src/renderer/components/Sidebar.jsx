@@ -6,6 +6,7 @@
 
 import React from 'react'
 import { cn } from '../utils/cn.js'
+import { BRAND_ICON_URL, BRAND_LOGO_URL } from '../utils/brandAssets.js'
 
 /** @type {{ id: string, label: string, icon: string }[]} */
 import { GAME_UI } from '../constants/gameTone.js'
@@ -59,19 +60,29 @@ export default function Sidebar({ activeId, onNavigate, collapsed = false, onTog
           collapsed ? 'justify-center px-2 py-3' : 'px-3 py-2'
         )}
       >
-        <img
-          src={collapsed ? '/icon.png' : '/logo.png'}
-          alt={GAME_UI.appName}
+        <div
           className={cn(
-            'm-0 block shrink-0 border-0 bg-transparent p-0 object-contain object-left',
-            collapsed ? 'h-9 w-9' : 'h-9 w-auto max-w-[11.5rem]'
+            'relative shrink-0',
+            collapsed ? 'h-9 w-9' : 'h-10 w-full max-w-[11.5rem]'
           )}
-          onError={(e) => {
-            e.currentTarget.src = '/icon.png'
-            e.currentTarget.className = 'm-0 block h-9 w-9 shrink-0 border-0 bg-transparent p-0 object-contain'
-          }}
-        />
-        <p className="sr-only">{GAME_UI.appName}</p>
+        >
+          <img
+            src={BRAND_LOGO_URL}
+            alt={GAME_UI.appName}
+            className={cn(
+              'm-0 block h-10 w-full max-w-[11.5rem] border-0 bg-transparent p-0 object-contain object-left',
+              collapsed && 'hidden'
+            )}
+          />
+          <img
+            src={BRAND_ICON_URL}
+            alt={GAME_UI.appName}
+            className={cn(
+              'm-0 block h-9 w-9 border-0 bg-transparent p-0 object-contain',
+              !collapsed && 'hidden'
+            )}
+          />
+        </div>
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 p-2" aria-label="Main navigation">
