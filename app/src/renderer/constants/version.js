@@ -4,4 +4,4 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export const APP_VERSION_LABEL = 'v0.1.0-alpha'
+export const APP_VERSION_LABEL = 'v1.0.1'

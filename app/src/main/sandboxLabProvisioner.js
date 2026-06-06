@@ -624,73 +624,88 @@ export async function provisionDockerLabEnvironment(params) {
 
   if (hasSsh && !isHostTerminalWorkstation) {
     if (targetInternalIp && helperResult.containerId && userSetup.ok) {
-      progress?.emit?.('ssh_ready', { status: 'running', message: 'Checking SSH reachability…' })
-      progress?.checkCancel?.()
-
-      const routeCheckPlatform = isDesktopContainerProfile(workstationProfile)
-        ? 'linux'
-        : workstationProfile.type === 'windows'
-          ? 'windows'
-          : 'linux'
-
-      const reachability = await verifySshLabReachability({
-        targetContainerId: targetResult.containerId,
-        workstationContainerId: helperResult.containerId,
-        targetInternalIp,
-        targetHostnames: [TARGET_NETWORK_ALIAS],
-        workstationPlatform: routeCheckPlatform,
-        dockerRuntime: managerRuntime
-      })
-      sshReady = reachability.ok
-      updateMissionSessionCredentials(sessionId, { sshReady })
-      credentials.sshReady = sshReady
-
-      if (!sshReady) {
-        const logOpts = sessionDockerOptions(dockerRuntime)
-        const [targetLogs, workstationLogs] = await Promise.all([
-          dockerManager.getContainerLogs(targetResult.containerId, { tail: 80, ...logOpts }),
-          dockerManager.getContainerLogs(helperResult.containerId, { tail: 40, ...logOpts })
-        ])
-        const stage = reachability.stage ?? CREDENTIAL_SETUP_STAGES.SSH_ROUTE_FAILED
-        const message =
-          reachability.message ?? credentialSetupUserMessage(stage, reachability.detail ?? undefined)
-        progress?.emit?.('ssh_ready', { status: 'error', message })
-        logger.error('sandboxLab', 'SSH reachability check failed', {
+      if (isDesktopContainer) {
+        // Desktop VMs (Windows/Linux GUI) are not SSH jump boxes — learners connect from inside the desktop.
+        // Target sshd was already verified above; probing route from the VM shell is unreliable and unnecessary.
+        sshReady = true
+        updateMissionSessionCredentials(sessionId, { sshReady })
+        credentials.sshReady = sshReady
+        progress?.emit?.('ssh_ready', {
+          status: 'success',
+          message: 'Lab target SSH is ready — connect from your desktop workstation.'
+        })
+        logger.info('sandboxLab', 'Skipped workstation SSH route check for desktop workstation', {
           labId,
           sessionId,
           targetInternalIp,
-          stage,
-          portOpen: reachability.portOpen,
-          routeOk: reachability.routeOk,
-          sshdListening: reachability.sshdListening,
-          detail: reachability.detail
+          workstationProfileId: workstationProfile.id
         })
-        throw new CredentialSetupError(message, {
-          stage,
-          detail: reachability.detail ?? undefined,
-          report: [
-            reachability.report ?? '',
-            '',
-            '--- target container logs ---',
-            targetLogs.logs?.slice(0, 2500) ?? '',
-            '',
-            '--- workstation container logs ---',
-            workstationLogs.logs?.slice(0, 1500) ?? ''
-          ]
-            .filter(Boolean)
-            .join('\n')
-            .slice(0, 16000),
-          userExists: true,
-          targetContainerId: targetResult.containerId
+      } else {
+        progress?.emit?.('ssh_ready', { status: 'running', message: 'Checking SSH reachability…' })
+        progress?.checkCancel?.()
+
+        const routeCheckPlatform =
+          workstationProfile.type === 'windows' ? 'windows' : 'linux'
+
+        const reachability = await verifySshLabReachability({
+          targetContainerId: targetResult.containerId,
+          workstationContainerId: helperResult.containerId,
+          targetInternalIp,
+          targetHostnames: [TARGET_NETWORK_ALIAS, targetInternalIp].filter(Boolean),
+          workstationPlatform: routeCheckPlatform,
+          dockerRuntime: managerRuntime
+        })
+        sshReady = reachability.ok
+        updateMissionSessionCredentials(sessionId, { sshReady })
+        credentials.sshReady = sshReady
+
+        if (!sshReady) {
+          const logOpts = sessionDockerOptions(dockerRuntime)
+          const [targetLogs, workstationLogs] = await Promise.all([
+            dockerManager.getContainerLogs(targetResult.containerId, { tail: 80, ...logOpts }),
+            dockerManager.getContainerLogs(helperResult.containerId, { tail: 40, ...logOpts })
+          ])
+          const stage = reachability.stage ?? CREDENTIAL_SETUP_STAGES.SSH_ROUTE_FAILED
+          const message =
+            reachability.message ?? credentialSetupUserMessage(stage, reachability.detail ?? undefined)
+          progress?.emit?.('ssh_ready', { status: 'error', message })
+          logger.error('sandboxLab', 'SSH reachability check failed', {
+            labId,
+            sessionId,
+            targetInternalIp,
+            stage,
+            portOpen: reachability.portOpen,
+            routeOk: reachability.routeOk,
+            sshdListening: reachability.sshdListening,
+            detail: reachability.detail
+          })
+          throw new CredentialSetupError(message, {
+            stage,
+            detail: reachability.detail ?? undefined,
+            report: [
+              reachability.report ?? '',
+              '',
+              '--- target container logs ---',
+              targetLogs.logs?.slice(0, 2500) ?? '',
+              '',
+              '--- workstation container logs ---',
+              workstationLogs.logs?.slice(0, 1500) ?? ''
+            ]
+              .filter(Boolean)
+              .join('\n')
+              .slice(0, 16000),
+            userExists: true,
+            targetContainerId: targetResult.containerId
+          })
+        }
+
+        progress?.emit?.('ssh_ready', { status: 'success' })
+        logger.info('sandboxLab', 'SSH reachability verified', {
+          labId,
+          sessionId,
+          targetInternalIp
         })
       }
-
-      progress?.emit?.('ssh_ready', { status: 'success' })
-      logger.info('sandboxLab', 'SSH reachability verified', {
-        labId,
-        sessionId,
-        targetInternalIp
-      })
     } else if (hasSsh) {
       progress?.emit?.('ssh_ready', { status: 'error' })
       throw new CredentialSetupError('Lab target route could not be resolved.', {

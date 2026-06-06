@@ -1,6 +1,6 @@
 {
   "name": "@sysadmin-game/app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Computer Server Labs desktop app — Electron lab platform with Docker workstations",
   "license": "MPL-2.0",
   "author": "Computer Server Labs Contributors",
