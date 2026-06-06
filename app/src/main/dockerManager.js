@@ -134,7 +134,8 @@ async function docker(args, options = {}) {
   if (isWslDockerKvmRuntime(runtime)) {
     return runWslDockerCommand(args, {
       timeout: options.timeout ?? DEFAULT_TIMEOUT_MS,
-      distro: options.distro ?? null
+      distro: options.distro ?? null,
+      cwd: options.cwd
     })
   }
 
@@ -267,12 +268,17 @@ function resolveDockerfileForBuild(buildContext, dockerfilePath) {
 /**
  * @param {string} buildPath absolute path to build context
  * @param {string} tag
- * @param {{ labId?: string, sessionId?: string, resourceRole?: string, lifecycle?: string, dockerfile?: string, noCache?: boolean, entrypointVersion?: string, platform?: string }} [options]
+ * @param {{ labId?: string, sessionId?: string, resourceRole?: string, lifecycle?: string, dockerfile?: string, noCache?: boolean, entrypointVersion?: string, platform?: string, dockerRuntime?: string, runtime?: string }} [options]
  */
 export async function buildImage(buildPath, tag, options = {}) {
+  const resolvedContext = path.resolve(buildPath)
+  if (!fs.existsSync(resolvedContext)) {
+    throw new Error(`Docker build context not found: ${resolvedContext}`)
+  }
+
   const args = ['build', '-t', tag]
   if (options.dockerfile) {
-    args.push('-f', resolveDockerfileForBuild(buildPath, options.dockerfile))
+    args.push('-f', resolveDockerfileForBuild(resolvedContext, options.dockerfile))
   }
   if (options.platform) {
     args.push('--platform', options.platform)
@@ -297,10 +303,11 @@ export async function buildImage(buildPath, tag, options = {}) {
     )
   }
   args.push('.')
+  const runtime = options.dockerRuntime ?? options.runtime
   const result = await docker(args, {
     timeout: BUILD_TIMEOUT_MS,
-    cwd: buildPath,
-    dockerRuntime: options.dockerRuntime ?? options.runtime
+    cwd: resolvedContext,
+    dockerRuntime: runtime
   })
   if (!result.ok) {
     throw new Error(result.stderr || result.stdout || `Failed to build image ${tag}`)
