@@ -9,6 +9,7 @@ import { Button } from '../components/ui/index.js'
 import LeaderboardProfileCard from '../components/LeaderboardProfileCard.jsx'
 import { getApi } from '../hooks/useApi.js'
 import { useNotifications } from '../context/NotificationContext.jsx'
+import { LOCAL_REGISTRY_BASE_URL, WEBSITE_URL } from '@sysadmin-game/shared/branding/appBrand.js'
 
 export default function Account() {
   const { notify } = useNotifications()
@@ -230,8 +231,8 @@ export default function Account() {
                 <p className="mt-2 text-xs text-muted">{linkSession.verificationUrl}</p>
                 <p className="mt-2 text-xs text-muted-dim">
                   If the website says &quot;Invalid code&quot;, set Settings → Online registry to your website URL
-                  (production: <span className="font-mono">https://computerserverlabs.com</span>; local Docker:{' '}
-                  <span className="font-mono">http://127.0.0.1:8080</span> — not port 8787), then request a new code.
+                  (production: <span className="font-mono">{WEBSITE_URL}</span>; local Docker:{' '}
+                  <span className="font-mono">{LOCAL_REGISTRY_BASE_URL}</span> — not port 8787), then request a new code.
                 </p>
               </div>
             ) : null}

@@ -8,6 +8,7 @@ import os from 'os'
 import crypto from 'crypto'
 import { getAllSettings } from '../settingsManager.js'
 import { logger } from '../utils/logger.js'
+import { getDefaultRegistryBaseUrl } from '../registryDefaults.js'
 import {
   clearOnlineSession,
   getOnlineAccessToken,
@@ -15,8 +16,8 @@ import {
   saveOnlineSession
 } from './onlineTokenStore.js'
 
-/** Public registry site (nginx/Vite). API routes are always /api/* on this origin. */
-export const DEFAULT_REGISTRY_BASE_URL = 'http://127.0.0.1:8080'
+/** @deprecated Prefer getDefaultRegistryBaseUrl() — value depends on packaged vs dev runtime. */
+export { DEFAULT_REGISTRY_BASE_URL } from '../registryDefaults.js'
 
 function stripTrailingSlash(url) {
   return String(url ?? '').replace(/\/$/, '')
@@ -31,20 +32,21 @@ function isDirectApiPort(url) {
  * requests go to `${base}/api/...` through the website reverse proxy.
  */
 export function getOnlineRegistryBaseUrl() {
+  const defaultBase = getDefaultRegistryBaseUrl()
   const settings = getAllSettings()
-  let website = stripTrailingSlash(settings.onlineWebsiteBaseUrl ?? DEFAULT_REGISTRY_BASE_URL)
-  let api = stripTrailingSlash(settings.onlineApiBaseUrl ?? DEFAULT_REGISTRY_BASE_URL)
+  let website = stripTrailingSlash(settings.onlineWebsiteBaseUrl ?? defaultBase)
+  let api = stripTrailingSlash(settings.onlineApiBaseUrl ?? defaultBase)
 
   if (isDirectApiPort(api)) {
-    api = isDirectApiPort(website) ? DEFAULT_REGISTRY_BASE_URL : website
+    api = isDirectApiPort(website) ? defaultBase : website
   }
   if (isDirectApiPort(website)) {
-    website = isDirectApiPort(api) ? DEFAULT_REGISTRY_BASE_URL : api
+    website = isDirectApiPort(api) ? defaultBase : api
   }
 
-  if (website !== DEFAULT_REGISTRY_BASE_URL && !isDirectApiPort(website)) return website
-  if (api !== DEFAULT_REGISTRY_BASE_URL && !isDirectApiPort(api)) return api
-  return DEFAULT_REGISTRY_BASE_URL
+  if (website !== defaultBase && !isDirectApiPort(website)) return website
+  if (api !== defaultBase && !isDirectApiPort(api)) return api
+  return defaultBase
 }
 
 /** @deprecated alias — same as registry site base; paths include /api */

@@ -17,6 +17,7 @@ import WorkstationDockerStatusPanel from '../components/workstation/WorkstationD
 import WorkstationWhyDisabledModal from '../components/workstation/WorkstationWhyDisabledModal.jsx'
 import DesktopRuntimeSettings from '../components/settings/DesktopRuntimeSettings.jsx'
 import { normalizeWorkstationLoginMode } from '@sysadmin-game/shared/workstations/workstationLoginMode.js'
+import { LOCAL_REGISTRY_BASE_URL, WEBSITE_URL } from '@sysadmin-game/shared/branding/appBrand.js'
 
 function ToggleRow({ label, description, enabled, onChange, disabled = false, title }) {
   return (
@@ -67,7 +68,8 @@ export default function Settings({ onNavigate }) {
   const [workstationEnvironment, setWorkstationEnvironment] = useState(null)
   const [whyWorkstationOption, setWhyWorkstationOption] = useState(null)
   const [disclaimerOpen, setDisclaimerOpen] = useState(false)
-  const [onlineRegistryBaseUrl, setOnlineRegistryBaseUrl] = useState('http://127.0.0.1:8080')
+  const fallbackRegistryBaseUrl = isDevelopmentUnpackaged ? LOCAL_REGISTRY_BASE_URL : WEBSITE_URL
+  const [onlineRegistryBaseUrl, setOnlineRegistryBaseUrl] = useState(fallbackRegistryBaseUrl)
   const [savingOnlineUrls, setSavingOnlineUrls] = useState(false)
 
   const persistedSettings = profile?.settings
@@ -109,9 +111,9 @@ export default function Settings({ onNavigate }) {
     setOnlineRegistryBaseUrl(
       persistedSettings.onlineWebsiteBaseUrl ??
         persistedSettings.onlineApiBaseUrl ??
-        'http://127.0.0.1:8080'
+        fallbackRegistryBaseUrl
     )
-  }, [persistedSettings])
+  }, [persistedSettings, fallbackRegistryBaseUrl])
 
   useEffect(() => {
     const api = getApi()
@@ -147,7 +149,7 @@ export default function Settings({ onNavigate }) {
       return
     }
     if (/:8787(?:\/|$)/.test(registryUrl)) {
-      window.alert('Use your website URL (e.g. http://127.0.0.1:8080), not the internal API port 8787.')
+      window.alert(`Use your website URL (e.g. ${LOCAL_REGISTRY_BASE_URL}), not the internal API port 8787.`)
       return
     }
     setSavingOnlineUrls(true)
@@ -444,8 +446,8 @@ export default function Settings({ onNavigate }) {
         <p className="mb-3 text-xs text-muted">
           The app reaches the registry through your <strong>website</strong> at <span className="font-mono text-gray-300">/api</span>
           — not the internal API port. Production:{' '}
-          <span className="font-mono text-gray-300">https://computerserverlabs.com</span>. Local Docker:{' '}
-          <span className="font-mono text-gray-300">http://127.0.0.1:8080</span>.
+          <span className="font-mono text-gray-300">{WEBSITE_URL}</span>. Local Docker:{' '}
+          <span className="font-mono text-gray-300">{LOCAL_REGISTRY_BASE_URL}</span>.
         </p>
         <div className="space-y-3 text-sm">
           <label className="block">
@@ -458,7 +460,7 @@ export default function Settings({ onNavigate }) {
               className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 font-mono text-xs text-gray-100"
               value={onlineRegistryBaseUrl}
               onChange={(e) => setOnlineRegistryBaseUrl(e.target.value)}
-              placeholder="https://computerserverlabs.com"
+              placeholder={WEBSITE_URL}
             />
           </label>
           <Button size="sm" disabled={savingOnlineUrls} onClick={() => void saveOnlineRegistryUrls()}>

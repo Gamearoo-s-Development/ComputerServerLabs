@@ -15,7 +15,7 @@ cp .env.docker.example .env.docker
 docker compose up --build
 ```
 
-Open **http://localhost:8080**. API requests go to `/api` on the same origin (proxied to the API container).
+Open **http://localhost:8080** locally. Production: **https://computerserverlabs.com** (site and `/api` on the same origin).
 
 ## Local development (monorepo)
 

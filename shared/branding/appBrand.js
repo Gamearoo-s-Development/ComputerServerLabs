@@ -17,6 +17,9 @@ export const WEBSITE_URL = 'https://computerserverlabs.com'
 
 export const WEBSITE_DOMAIN = 'computerserverlabs.com'
 
+/** Local Docker stack (website + /api proxy on same origin) */
+export const LOCAL_REGISTRY_BASE_URL = 'http://127.0.0.1:8080'
+
 export const CONTRIBUTORS = 'Computer Server Labs Contributors'
 
 /** Device-link and API client label */

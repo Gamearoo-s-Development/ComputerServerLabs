@@ -26,7 +26,7 @@ Email notifications          → server-only (SMTP/Resend/SendGrid)
 
 Settings:
 
-- `onlineApiBaseUrl` (default `http://127.0.0.1:8787`)
+- `onlineApiBaseUrl` / `onlineWebsiteBaseUrl` — registry site (API at `/api` on same host). Packaged app default: `https://computerserverlabs.com`; dev/local Docker: `http://127.0.0.1:8080`
 - `cloudSyncEnabled` (default `true`)
 - `leaderboardOptIn` (default `false`)
 
@@ -96,8 +96,8 @@ Never uploaded:
 
 ## Self-hosting checklist
 
-1. Deploy `website/api/` with HTTPS reverse proxy
-2. Set `PUBLIC_BASE_URL`, `WEBSITE_BASE_URL`, strong `JWT_SECRET`
+1. Deploy `website/api/` with HTTPS reverse proxy (production: **https://computerserverlabs.com**)
+2. Set `PUBLIC_BASE_URL`, `WEBSITE_BASE_URL` to your public site URL, plus strong `JWT_SECRET`
 3. Generate Ed25519 lab signing keys
 4. Build `website/` or serve static files
 5. Point desktop `onlineApiBaseUrl` to your API

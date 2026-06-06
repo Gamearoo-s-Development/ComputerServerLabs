@@ -11,6 +11,7 @@ directories:
   buildResources: build
 
 # Application code (out/ from electron-vite) + production dependencies only.
+# @sysadmin-game/shared is bundled into out/ by electron-vite (devDependency) — not copied to node_modules.
 # Labs, config, docs, and assets ship via extraResources (process.resourcesPath).
 files:
   - out/**/*

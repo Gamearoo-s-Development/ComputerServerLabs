@@ -9,6 +9,11 @@ import fs from 'fs'
 import { getConfigPath } from './utils/paths.js'
 import { getDatabase } from './db/database.js'
 import { logger } from './utils/logger.js'
+import {
+  getDefaultRegistryBaseUrl,
+  isDevRuntime,
+  migratePackagedRegistryDefaults
+} from './registryDefaults.js'
 
 const DEFAULT_SETTINGS = {
   theme: 'dark',
@@ -31,8 +36,6 @@ const DEFAULT_SETTINGS = {
   localTerminalRiskAcknowledged: false,
   wslLocalTerminalRiskAcknowledged: false,
   workstationLoginMode: 'tty-login',
-  onlineApiBaseUrl: 'http://127.0.0.1:8080',
-  onlineWebsiteBaseUrl: 'http://127.0.0.1:8080',
   cloudSyncEnabled: true,
   leaderboardOptIn: false,
   onlineDeviceId: null
@@ -49,14 +52,19 @@ const ALLOWED_SETTING_KEYS = new Set([
   'onlineDeviceId'
 ])
 
-function isDevRuntime() {
-  return !app.isPackaged || Boolean(process.env.ELECTRON_RENDERER_URL)
+function withRegistryDefaults(settings) {
+  const registryBase = getDefaultRegistryBaseUrl()
+  return {
+    ...settings,
+    onlineApiBaseUrl: registryBase,
+    onlineWebsiteBaseUrl: registryBase
+  }
 }
 
 function loadDefaults() {
   try {
     const config = JSON.parse(fs.readFileSync(getConfigPath('app.defaults.json'), 'utf8'))
-    return {
+    return withRegistryDefaults({
       ...DEFAULT_SETTINGS,
       safetyModeEnabled: config.safetyMode?.enabledByDefault !== false,
       discordRpcEnabled: config.discord?.enabledByDefault !== false,
@@ -71,14 +79,14 @@ function loadDefaults() {
         config.workstation?.loginMode === 'show-credentials'
           ? config.workstation.loginMode
           : DEFAULT_SETTINGS.workstationLoginMode
-    }
+    })
   } catch {
-    return {
+    return withRegistryDefaults({
       ...DEFAULT_SETTINGS,
       requireLabStartWarning: true,
       requireDestroyConfirmation: true,
       keepLabImagesCache: false
-    }
+    })
   }
 }
 
@@ -111,7 +119,7 @@ export function setSetting(key, value) {
 }
 
 function syncOnlineRegistryUrls(merged) {
-  const defaultBase = DEFAULT_SETTINGS.onlineApiBaseUrl
+  const defaultBase = getDefaultRegistryBaseUrl()
   let website = String(merged.onlineWebsiteBaseUrl ?? defaultBase).replace(/\/$/, '')
   let api = String(merged.onlineApiBaseUrl ?? defaultBase).replace(/\/$/, '')
   const is8787 = (url) => /:8787(?:\/|$)/.test(url)
@@ -189,6 +197,11 @@ export function getAllSettings() {
     merged.labWorkstationPreference === 'windows-workstation'
   ) {
     merged.labWorkstationPreference = 'desktop-container-windows'
+  }
+
+  if (migratePackagedRegistryDefaults(merged)) {
+    setSetting('onlineApiBaseUrl', merged.onlineApiBaseUrl)
+    setSetting('onlineWebsiteBaseUrl', merged.onlineWebsiteBaseUrl)
   }
 
   syncOnlineRegistryUrls(merged)

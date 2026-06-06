@@ -14,6 +14,7 @@ import {
   labThumbnailStyle,
   runtimeIcon
 } from '../labs/labBrowserUtils.js'
+import { LOCAL_REGISTRY_BASE_URL, WEBSITE_URL } from '@sysadmin-game/shared/branding/appBrand.js'
 
 function LabSourceBadge({ badges = [], isBundled }) {
   if (isBundled) {
@@ -67,7 +68,7 @@ export default function OnlineLabDetailModal({
   downloading = false,
   uninstalling = false
 }) {
-  const { profile } = useAppState()
+  const { profile, isDevelopmentUnpackaged } = useAppState()
   const [detail, setDetail] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -124,7 +125,7 @@ export default function OnlineLabDetailModal({
     const base =
       profile?.settings?.onlineWebsiteBaseUrl ??
       profile?.settings?.onlineApiBaseUrl ??
-      'http://127.0.0.1:8080'
+      (isDevelopmentUnpackaged ? LOCAL_REGISTRY_BASE_URL : WEBSITE_URL)
     void api?.app?.openExternal?.(String(base).replace(/\/$/, ''))
   }
 
