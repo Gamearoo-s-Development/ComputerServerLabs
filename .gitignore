@@ -168,3 +168,4 @@ website/dist
 .yarn/install-state.gz
 .pnp.*
 /prod*
+dist-package-log.txt
