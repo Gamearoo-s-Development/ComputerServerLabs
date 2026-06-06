@@ -4,10 +4,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import path from 'path'
 import { runCommand } from '../utils/exec.js'
 import { scrubSensitiveText } from '../utils/logRedaction.js'
 import { logger } from '../utils/logger.js'
 import { detectWslEnvironment } from './wslDetection.js'
+import { windowsPathToWsl } from './wslPaths.js'
 
 /** @typedef {'host-docker' | 'docker-wsl-kvm'} DockerDesktopRuntime */
 
@@ -76,10 +78,17 @@ export async function runWslShLc(shellCommand, options = {}) {
 /**
  * Run docker CLI args through WSL (same Docker Desktop engine when integration is enabled).
  * @param {string[]} dockerArgs
- * @param {{ timeout?: number, distro?: string | null }} [options]
+ * @param {{ timeout?: number, distro?: string | null, cwd?: string }} [options]
  */
 export async function runWslDockerCommand(dockerArgs, options = {}) {
-  const shellCommand = buildWslDockerShellCommand(dockerArgs)
+  let shellCommand = buildWslDockerShellCommand(dockerArgs)
+  if (options.cwd) {
+    const wslCwd = windowsPathToWsl(path.resolve(options.cwd))
+    if (!wslCwd) {
+      throw new Error(`Could not convert working directory for WSL Docker: ${options.cwd}`)
+    }
+    shellCommand = `cd ${shellQuotePosix(wslCwd)} && ${shellCommand}`
+  }
   return runWslShLc(shellCommand, options)
 }
 
