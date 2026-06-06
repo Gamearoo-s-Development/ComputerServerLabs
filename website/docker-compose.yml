@@ -38,14 +38,12 @@ services:
     build:
       context: ..
       dockerfile: website/Dockerfile
-    ports:
-      - "8080:80"
     depends_on:
       api:
         condition: service_healthy
     networks:
       - default
-      # - nppm_default
+      - nppm_default
     restart: unless-stopped
 
   api:
@@ -92,6 +90,6 @@ volumes:
   lab-packs:
     name: sysadmin-registry-lab-packs
 
-# networks:
-#   nppm_default:
-#     external: true
+networks:
+  nppm_default:
+    external: true
