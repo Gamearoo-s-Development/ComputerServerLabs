@@ -43,6 +43,7 @@ const FIRST_SETUP_NOTE =
  *   onCleanup?: () => void
  *   onDismiss?: () => void
  *   onStartLab?: () => void
+ *   onContinueToLab?: () => void | Promise<void>
  *   readinessState?: string | null
  *   desktopUrl?: string | null
  *   windowsInstalling?: boolean
@@ -70,6 +71,7 @@ export default function MissionStartupModal({
   onCleanup,
   onDismiss,
   onStartLab,
+  onContinueToLab,
   readinessState = null,
   desktopUrl = null,
   windowsInstalling = false,
@@ -77,6 +79,7 @@ export default function MissionStartupModal({
 }) {
   const [elapsedMs, setElapsedMs] = useState(0)
   const [diagnosticsOpen, setDiagnosticsOpen] = useState(false)
+  const [continuingToLab, setContinuingToLab] = useState(false)
 
   const handleCopyDiagnostics = async () => {
     if (!developerDetails) return
@@ -101,6 +104,11 @@ export default function MissionStartupModal({
     }
   }, [phase, showDeveloperDetails, developerDetails])
 
+  useEffect(() => {
+    if (!open || phase === 'running') return
+    setContinuingToLab(false)
+  }, [open, phase])
+
   const title = useMemo(() => {
     if (phase === 'failed') return 'Lab deployment failed'
     if (phase === 'canceled') return 'Lab start canceled'
@@ -116,14 +124,30 @@ export default function MissionStartupModal({
   const showSetupPreview = isPreparingDesktop && (Boolean(desktopUrl) || setupLogTail.length > 0)
   const canCancel = phase === 'running' && status !== 'success'
   const canStartLab = isReady && typeof onStartLab === 'function'
+  const canContinueToLab =
+    isPreparingDesktop &&
+    Boolean(desktopUrl) &&
+    typeof onContinueToLab === 'function' &&
+    status !== 'success'
   const readinessLabel = readinessState ? formatReadinessStateLabel(readinessState) : null
   const compactDesktopSetup = showSetupPreview && phase === 'running'
   const showModalFooter =
     canStartLab ||
+    (canContinueToLab && !compactDesktopSetup) ||
     (canCancel && !compactDesktopSetup) ||
     phase === 'failed' ||
     phase === 'canceled' ||
     isReady
+
+  const handleContinueToLab = async () => {
+    if (!canContinueToLab || continuingToLab) return
+    setContinuingToLab(true)
+    try {
+      await onContinueToLab?.()
+    } catch {
+      setContinuingToLab(false)
+    }
+  }
 
   return (
     <Modal
@@ -215,11 +239,31 @@ export default function MissionStartupModal({
                 </span>
               </div>
             ) : null}
-            {compactDesktopSetup && canCancel ? (
-              <div className="flex justify-end">
-                <Button variant="ghost" size="sm" onClick={onCancel}>
-                  Cancel setup
-                </Button>
+            {compactDesktopSetup && (canContinueToLab || canCancel) ? (
+              <div className="space-y-2">
+                {canContinueToLab ? (
+                  <p className="text-center text-xs text-muted">
+                    When the desktop looks ready below, continue to open the lab session. The lab timer
+                    starts when you click Start lab.
+                  </p>
+                ) : null}
+                <div className="flex flex-wrap items-center justify-end gap-2">
+                {canCancel ? (
+                  <Button variant="ghost" size="sm" onClick={onCancel} disabled={continuingToLab}>
+                    Cancel setup
+                  </Button>
+                ) : null}
+                {canContinueToLab ? (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => void handleContinueToLab()}
+                    disabled={continuingToLab}
+                  >
+                    {continuingToLab ? 'Finishing setup…' : 'Continue to lab'}
+                  </Button>
+                ) : null}
+                </div>
               </div>
             ) : null}
           </>
@@ -306,6 +350,16 @@ export default function MissionStartupModal({
         {canStartLab ? (
           <Button variant="primary" size="sm" onClick={onStartLab}>
             Start lab
+          </Button>
+        ) : null}
+        {canContinueToLab ? (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => void handleContinueToLab()}
+            disabled={continuingToLab}
+          >
+            {continuingToLab ? 'Finishing setup…' : 'Continue to lab'}
           </Button>
         ) : null}
         {canCancel && !compactDesktopSetup ? (

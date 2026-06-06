@@ -702,21 +702,19 @@ export default function Labs({ onNavigate }) {
   const handleForceStartFromStartup = useCallback(async () => {
     const api = getApi()
     const sessionId = startupUi.sessionId
-    if (!sessionId || !api?.labs?.forceDesktopReady) return
+    if (!sessionId || !api?.labs?.forceDesktopReady) {
+      throw new Error('Desktop setup is not ready to continue yet.')
+    }
     const result = await api.labs.forceDesktopReady(sessionId)
     if (!result?.ok) {
+      const message = result?.error?.message ?? 'Desktop setup is not ready to continue yet.'
       notify({
-        title: 'Could not start lab',
-        body: result?.error?.message ?? 'Desktop readiness override failed.',
+        title: 'Could not continue',
+        body: message,
         tone: 'warning'
       })
-      return
+      throw new Error(message)
     }
-    notify({
-      title: 'Starting lab',
-      body: 'Desktop readiness override sent. Waiting for session activation…',
-      tone: 'info'
-    })
   }, [startupUi.sessionId, notify])
 
   const resumeDesktopSetup = useCallback(
@@ -1387,6 +1385,7 @@ export default function Labs({ onNavigate }) {
         onRetry={handleRetryStartup}
         onCleanup={handleCleanupStartup}
         onStartLab={handleEnterLabFromStartup}
+        onContinueToLab={handleForceStartFromStartup}
         onDismiss={dismissStartupModal}
         readinessState={startupUi.readinessState}
         desktopUrl={startupUi.desktopUrl}
