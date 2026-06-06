@@ -115,7 +115,7 @@ function maybeNotifyLabDeploymentReady(labId, lab, sessionId) {
     })
   })
 }
-import { getConfigPath, getLabsPath, getOnlineLabsRoot } from './utils/paths.js'
+import { getConfigPath, getLabsPath, getOnlineLabsRoot, getUserDataRoot } from './utils/paths.js'
 import {
   clearLabLocationCache,
   discoverLabLocations,
@@ -814,13 +814,50 @@ function resolveLabBuildContext(labsTreeRoot, labsRoot, labId, dockerSpec) {
   if (buildPathRel === '..') {
     return {
       buildContext: labsTreeRoot,
-      dockerfilePath: path.join(labDir, 'Dockerfile')
+      dockerfilePath: path.join(labDir, 'Dockerfile'),
+      usesSharedTree: true
     }
   }
   const buildContext = path.resolve(labDir, buildPathRel)
   return {
     buildContext,
-    dockerfilePath: path.join(buildContext, 'Dockerfile')
+    dockerfilePath: path.join(buildContext, 'Dockerfile'),
+    usesSharedTree: false
+  }
+}
+
+/**
+ * Labs with buildPath ".." share scripts from labs/common. Copy into userData so Docker
+ * never has to read build contexts from Program Files or other awkward host paths.
+ * @param {string} labsTreeRoot
+ * @param {string} labDir
+ * @param {string} labId
+ */
+function materializeSharedLabBuildContext(labsTreeRoot, labDir, labId) {
+  const commonSrc = path.join(labsTreeRoot, 'common')
+  if (!fs.existsSync(commonSrc)) {
+    throw new Error(`Lab common scripts missing at ${commonSrc}`)
+  }
+  if (!fs.existsSync(path.join(labDir, 'Dockerfile'))) {
+    throw new Error(`Dockerfile missing for ${labId}`)
+  }
+
+  const labRel = path.relative(labsTreeRoot, labDir)
+  if (!labRel || labRel.startsWith('..') || path.isAbsolute(labRel)) {
+    throw new Error(`Lab folder must live under the labs tree root (${labsTreeRoot})`)
+  }
+
+  const stagingRoot = path.join(getUserDataRoot(), 'lab-build-contexts', labId)
+  const labDest = path.join(stagingRoot, labRel)
+
+  fs.rmSync(stagingRoot, { recursive: true, force: true })
+  fs.mkdirSync(path.dirname(labDest), { recursive: true })
+  fs.cpSync(commonSrc, path.join(stagingRoot, 'common'), { recursive: true })
+  fs.cpSync(labDir, labDest, { recursive: true })
+
+  return {
+    buildContext: stagingRoot,
+    dockerfilePath: path.join(labDest, 'Dockerfile')
   }
 }
 
@@ -843,12 +880,20 @@ async function ensureLabImage(lab, loc, progress, sessionDockerRuntime = null) {
   const tag = image || localTag
 
   if (dockerSpec.buildPath !== undefined || fs.existsSync(path.join(loc.labsRoot, labId, 'Dockerfile'))) {
-    const { buildContext, dockerfilePath } = resolveLabBuildContext(
+    const labDir = path.join(loc.labsRoot, labId)
+    let { buildContext, dockerfilePath } = resolveLabBuildContext(
       loc.labsTreeRoot,
       loc.labsRoot,
       labId,
       dockerSpec
     )
+    if (dockerSpec.buildPath === '..') {
+      ;({ buildContext, dockerfilePath } = materializeSharedLabBuildContext(
+        loc.labsTreeRoot,
+        labDir,
+        labId
+      ))
+    }
     if (!fs.existsSync(buildContext)) {
       throw new Error(`Build path not found: ${dockerSpec.buildPath ?? '.'}`)
     }
