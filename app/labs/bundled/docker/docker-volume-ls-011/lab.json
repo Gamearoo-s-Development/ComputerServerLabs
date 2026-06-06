@@ -1,0 +1,86 @@
+{
+  "id": "docker-volume-ls-011",
+  "title": "Docker Volumes",
+  "difficulty": "Medium",
+  "category": "Containers",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice persistent data in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/docker-volume-ls-011:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "docker",
+    "persistent",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about persistent data",
+    "Create the read marker: touch /tmp/docker-volume-ls-011-read",
+    "Create the completion marker: touch /tmp/docker-volume-ls-011-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/docker-volume-ls-011-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about persistent data and create the completion marker.",
+      "hint": "Run: touch /tmp/docker-volume-ls-011-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/docker-volume-ls-011-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/docker-volume-ls-011-complete"
+    }
+  ],
+  "hints": [
+    "Focus on persistent data.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/docker-volume-ls-011-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/docker-volume-ls-011-read",
+    "Completion marker exists at /tmp/docker-volume-ls-011-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/docker-volume-ls-011-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced persistent data in a safe container.",
+    "skillsPracticed": [
+      "Docker Volumes reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "docker-network-ls-010"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "win-ad-readonly-003",
+  "title": "Read AD Group Membership",
+  "difficulty": "Medium",
+  "category": "Windows Administration",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice whoami /groups in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/win-ad-readonly-003:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "windows concepts",
+    "whoami",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about whoami /groups",
+    "Create the read marker: touch /tmp/win-ad-readonly-003-read",
+    "Create the completion marker: touch /tmp/win-ad-readonly-003-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/win-ad-readonly-003-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about whoami /groups and create the completion marker.",
+      "hint": "Run: touch /tmp/win-ad-readonly-003-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/win-ad-readonly-003-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/win-ad-readonly-003-complete"
+    }
+  ],
+  "hints": [
+    "Focus on whoami /groups.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/win-ad-readonly-003-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/win-ad-readonly-003-read",
+    "Completion marker exists at /tmp/win-ad-readonly-003-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/win-ad-readonly-003-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced whoami /groups in a safe container.",
+    "skillsPracticed": [
+      "Read AD Group Membership reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 5,
+    "requiredLabs": [
+      "win-rdp-hardening-002"
+    ]
+  }
+}

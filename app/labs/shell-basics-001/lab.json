@@ -1,0 +1,52 @@
+{
+  "id": "shell-basics-001",
+  "title": "Shell Basics",
+  "difficulty": "Easy",
+  "category": "Linux Basics",
+  "description": "Work directly in the lab server from the integrated terminal—no SSH jump box. Create a completion marker and inspect your environment with basic commands.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/shell-basics-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Open the lab terminal (you start logged in as your session user)",
+    "Read the briefing in your home directory",
+    "Create the completion marker file described in the briefing",
+    "Run whoami and pwd to confirm your working directory"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the mission briefing",
+      "text": "Find and read the briefing file in your home directory, then record that you finished reading it.",
+      "hint": "Start in your home directory — list files, then use a command that prints file contents. The briefing tells you how to mark it read under /tmp."
+    },
+    {
+      "id": "create-marker",
+      "label": "Create the completion marker",
+      "text": "Create the empty marker file described in the briefing.",
+      "hint": "The briefing names the path; you only need an empty file there (no editor required)."
+    }
+  ],
+  "objectives": [
+    { "id": "read-briefing", "autoCheck": "fileExists", "path": "/tmp/shell-basics-read" },
+    { "id": "create-marker", "autoCheck": "fileExists", "path": "/tmp/mission-complete" }
+  ],
+  "validation": { "type": "fileExists", "path": "/tmp/mission-complete" },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["files", "navigation"],
+    "suggestedCommands": ["pwd", "whoami", "ls", "ls-la", "cat", "touch", "cd"],
+    "redHerrings": ["ssh", "systemctl-status", "docker", "chmod"]
+  },
+  "xpReward": 80,
+  "unlockRequirements": { "minLevel": 1 }
+}

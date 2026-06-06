@@ -1,0 +1,86 @@
+{
+  "id": "linux-signals-018",
+  "title": "Stop a Runaway Process",
+  "difficulty": "Medium",
+  "category": "Linux Basics",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice kill and signals in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/linux-signals-018:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "linux basics",
+    "kill",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about kill and signals",
+    "Create the read marker: touch /tmp/linux-signals-018-read",
+    "Create the completion marker: touch /tmp/linux-signals-018-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/linux-signals-018-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about kill and signals and create the completion marker.",
+      "hint": "Run: touch /tmp/linux-signals-018-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-signals-018-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-signals-018-complete"
+    }
+  ],
+  "hints": [
+    "Focus on kill and signals.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/linux-signals-018-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/linux-signals-018-read",
+    "Completion marker exists at /tmp/linux-signals-018-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/linux-signals-018-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced kill and signals in a safe container.",
+    "skillsPracticed": [
+      "Stop a Runaway Process reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 2,
+    "requiredLabs": [
+      "linux-processes-017"
+    ]
+  }
+}

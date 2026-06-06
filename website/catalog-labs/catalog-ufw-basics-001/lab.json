@@ -1,0 +1,54 @@
+{
+  "id": "catalog-ufw-basics-001",
+  "title": "Host Firewall with UFW",
+  "difficulty": "Easy",
+  "category": "Security",
+  "description": "Enable UFW, allow SSH and a web service, and verify the effective ruleset. This scenario is available from the online catalog only — download the pack here if you do not have it locally.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/catalog-ufw-basics-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Check current UFW status",
+    "Allow OpenSSH and HTTP (port 80) before enabling the firewall",
+    "Enable UFW and confirm the rules you expect",
+    "Document the numbered rule list with ufw status numbered"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "allow-services",
+      "label": "Allow SSH and HTTP",
+      "text": "Add UFW rules for OpenSSH and port 80/tcp.",
+      "hint": "Use ufw allow with the service name for SSH and the port/proto form for the web listener."
+    },
+    {
+      "id": "enable-ufw",
+      "label": "Enable UFW",
+      "text": "Turn UFW on and confirm it reports active.",
+      "hint": "Enable non-interactively if your environment supports it, then run ufw status."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "allow-services",
+      "autoCheck": "command",
+      "command": ["/usr/local/bin/verify-ufw-rules"]
+    },
+    {
+      "id": "enable-ufw",
+      "autoCheck": "command",
+      "command": ["/usr/local/bin/verify-ufw-enabled"]
+    }
+  ],
+  "validation": { "type": "command", "command": ["/usr/local/bin/verify-ufw-enabled"] },
+  "xpReward": 90,
+  "unlockRequirements": { "minLevel": 1 }
+}

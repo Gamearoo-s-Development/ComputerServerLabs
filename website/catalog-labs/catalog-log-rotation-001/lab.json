@@ -1,0 +1,46 @@
+{
+  "id": "catalog-log-rotation-001",
+  "title": "Log Rotation Basics",
+  "difficulty": "Medium",
+  "category": "Linux Administration",
+  "description": "Configure logrotate for a noisy application log so rotated files compress and old archives are pruned. Download this lab from the catalog — it is not included in the desktop installer.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/catalog-log-rotation-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Inspect the sample application log under /var/log/demo-app",
+    "Create a logrotate stanza for that log",
+    "Trigger a rotation and confirm compressed archives appear",
+    "Verify only the configured number of rotations are kept"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "write-config",
+      "label": "Write logrotate configuration",
+      "text": "Add a logrotate config that rotates the demo application log daily with compression.",
+      "hint": "Place a file under /etc/logrotate.d/ — include rotate, compress, and the log path from the briefing."
+    },
+    {
+      "id": "rotate-once",
+      "label": "Run a manual rotation",
+      "text": "Force logrotate to run once and confirm a rotated file exists.",
+      "hint": "Use logrotate with the force flag against your stanza, then list the log directory."
+    }
+  ],
+  "objectives": [
+    { "id": "write-config", "autoCheck": "fileExists", "path": "/etc/logrotate.d/demo-app" },
+    { "id": "rotate-once", "autoCheck": "fileExists", "path": "/var/log/demo-app/app.log.1.gz" }
+  ],
+  "validation": { "type": "fileExists", "path": "/var/log/demo-app/app.log.1.gz" },
+  "xpReward": 120,
+  "unlockRequirements": { "minLevel": 2 }
+}

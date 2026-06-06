@@ -1,0 +1,62 @@
+{
+  "safetyMode": {
+    "enabledByDefault": true,
+    "blockPrivilegedContainers": true,
+    "blockHostMounts": true,
+    "blockHostShellValidation": true,
+    "blockUnknownValidationTypes": true,
+    "requireLabStartWarning": true,
+    "requireDestroyConfirmation": true
+  },
+  "xp": {
+    "hintPenaltyPerHint": 10,
+    "minimumXpReward": 10
+  },
+  "levels": [
+    { "level": 1, "xpRequired": 0 },
+    { "level": 2, "xpRequired": 200 },
+    { "level": 3, "xpRequired": 500 },
+    { "level": 4, "xpRequired": 1000 },
+    { "level": 5, "xpRequired": 2000 },
+    { "level": 6, "xpRequired": 3500 },
+    { "level": 7, "xpRequired": 5000 }
+  ],
+  "labUnlocks": {
+    "_comment": "Deprecated fallback when lab.json omits unlockRequirements.minLevel",
+    "beginner-linux-001": 1,
+    "permissions-001": 2,
+    "nginx-001": 3,
+    "disk-cleanup-001": 4,
+    "service-repair-001": 5
+  },
+  "discord": {
+    "applicationId": "1505990175530942535",
+    "enabledByDefault": true
+  },
+  "docker": {
+    "keepLabImagesCache": false,
+    "sessionNetwork": {
+      "baseOctets": [10, 50],
+      "prefixLength": 24
+    },
+    "limits": {
+      "memory": "768m",
+      "memorySwap": "768m",
+      "cpus": "2",
+      "pidsLimit": 256
+    }
+  },
+  "workstation": {
+    "loginMode": "tty-login"
+  },
+  "ranks": [
+    { "minLevel": 1, "title": "Player" },
+    { "minLevel": 2, "title": "Junior Admin" },
+    { "minLevel": 3, "title": "SysAdmin Apprentice" },
+    { "minLevel": 4, "title": "SysAdmin" },
+    { "minLevel": 5, "title": "Senior SysAdmin" },
+    { "minLevel": 6, "title": "Infrastructure Engineer" },
+    { "minLevel": 7, "title": "SRE" },
+    { "minLevel": 8, "title": "Datacenter Architect" }
+  ]
+}

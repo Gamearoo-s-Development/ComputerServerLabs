@@ -1,0 +1,86 @@
+{
+  "id": "perm-chgrp-006",
+  "title": "Change Group Ownership",
+  "difficulty": "Medium",
+  "category": "Linux Permissions",
+  "bundled": true,
+  "estimatedTimeMinutes": 20,
+  "description": "Practice chgrp in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/perm-chgrp-006:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "file permissions",
+    "chgrp",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about chgrp",
+    "Create the read marker: touch /tmp/perm-chgrp-006-read",
+    "Create the completion marker: touch /tmp/perm-chgrp-006-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/perm-chgrp-006-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about chgrp and create the completion marker.",
+      "hint": "Run: touch /tmp/perm-chgrp-006-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-chgrp-006-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-chgrp-006-complete"
+    }
+  ],
+  "hints": [
+    "Focus on chgrp.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/perm-chgrp-006-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/perm-chgrp-006-read",
+    "Completion marker exists at /tmp/perm-chgrp-006-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/perm-chgrp-006-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced chgrp in a safe container.",
+    "skillsPracticed": [
+      "Change Group Ownership reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": [
+      "perm-chown-005"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "comm-ipsec-read-002",
+  "title": "IPsec Policy Review",
+  "difficulty": "Hard",
+  "category": "Networking",
+  "bundled": false,
+  "estimatedTimeMinutes": 35,
+  "description": "Practice policy read-only in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/comm-ipsec-read-002:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "advanced networking",
+    "policy",
+    "community"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about policy read-only",
+    "Create the read marker: touch /tmp/comm-ipsec-read-002-read",
+    "Create the completion marker: touch /tmp/comm-ipsec-read-002-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/comm-ipsec-read-002-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about policy read-only and create the completion marker.",
+      "hint": "Run: touch /tmp/comm-ipsec-read-002-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-ipsec-read-002-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-ipsec-read-002-complete"
+    }
+  ],
+  "hints": [
+    "Focus on policy read-only.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/comm-ipsec-read-002-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/comm-ipsec-read-002-read",
+    "Completion marker exists at /tmp/comm-ipsec-read-002-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/comm-ipsec-read-002-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced policy read-only in a safe container.",
+    "skillsPracticed": [
+      "IPsec Policy Review reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 7,
+    "requiredLabs": [
+      "comm-bgp-concepts-001"
+    ]
+  }
+}

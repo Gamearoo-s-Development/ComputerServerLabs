@@ -1,0 +1,86 @@
+{
+  "id": "perm-sudoers-011",
+  "title": "Least Privilege Editing",
+  "difficulty": "Hard",
+  "category": "Linux Permissions",
+  "bundled": true,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice sudo for one command in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/perm-sudoers-011:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "file permissions",
+    "sudo",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about sudo for one command",
+    "Create the read marker: touch /tmp/perm-sudoers-011-read",
+    "Create the completion marker: touch /tmp/perm-sudoers-011-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/perm-sudoers-011-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about sudo for one command and create the completion marker.",
+      "hint": "Run: touch /tmp/perm-sudoers-011-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-sudoers-011-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-sudoers-011-complete"
+    }
+  ],
+  "hints": [
+    "Focus on sudo for one command.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/perm-sudoers-011-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/perm-sudoers-011-read",
+    "Completion marker exists at /tmp/perm-sudoers-011-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/perm-sudoers-011-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced sudo for one command in a safe container.",
+    "skillsPracticed": [
+      "Least Privilege Editing reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "perm-acl-intro-010"
+    ]
+  }
+}

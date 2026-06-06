@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply m-0 min-h-screen bg-background font-sans text-gray-100 antialiased;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/50 ring-offset-2 ring-offset-background;
+  }
+
+  button:focus:not(:focus-visible),
+  a:focus:not(:focus-visible) {
+    @apply ring-0;
+  }
+}
+
+@layer components {
+  .page-enter {
+    animation: page-enter 0.35s ease-out both;
+  }
+
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .app-backdrop--static .app-backdrop__glow {
+    animation: none !important;
+  }
+  /* Lightweight animated backdrop — GPU-friendly transforms only */
+  .app-backdrop {
+    @apply pointer-events-none fixed inset-0 z-0 overflow-hidden bg-background;
+  }
+
+  .app-backdrop__grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image:
+      linear-gradient(to right, #3f4a5c 1px, transparent 1px),
+      linear-gradient(to bottom, #3f4a5c 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
+  }
+
+  .app-backdrop__glow {
+    position: absolute;
+    width: 70vmax;
+    height: 70vmax;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+
+  .app-backdrop__glow--cyan {
+    top: -20%;
+    left: -10%;
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.18) 0%, transparent 70%);
+  }
+
+  .app-backdrop__glow--green {
+    bottom: -25%;
+    right: -15%;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.12) 0%, transparent 70%);
+    animation-delay: -9s;
+  }
+
+  .app-backdrop__scanline {
+    position: absolute;
+    inset: 0;
+    opacity: 0.02;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .app-backdrop__glow--cyan,
+    .app-backdrop__glow--green {
+      animation: none !important;
+    }
+
+    .page-enter {
+      animation: none !important;
+    }
+  }
+}

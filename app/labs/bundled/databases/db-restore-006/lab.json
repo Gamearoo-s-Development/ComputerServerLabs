@@ -1,0 +1,86 @@
+{
+  "id": "db-restore-006",
+  "title": "Restore from Dump",
+  "difficulty": "Medium",
+  "category": "Databases",
+  "bundled": true,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice import SQL in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/db-restore-006:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "databases",
+    "import",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about import SQL",
+    "Create the read marker: touch /tmp/db-restore-006-read",
+    "Create the completion marker: touch /tmp/db-restore-006-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/db-restore-006-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about import SQL and create the completion marker.",
+      "hint": "Run: touch /tmp/db-restore-006-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/db-restore-006-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/db-restore-006-complete"
+    }
+  ],
+  "hints": [
+    "Focus on import SQL.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/db-restore-006-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/db-restore-006-read",
+    "Completion marker exists at /tmp/db-restore-006-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/db-restore-006-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced import SQL in a safe container.",
+    "skillsPracticed": [
+      "Restore from Dump reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 5,
+    "requiredLabs": [
+      "db-backup-005"
+    ]
+  }
+}

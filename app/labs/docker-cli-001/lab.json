@@ -1,0 +1,58 @@
+{
+  "id": "docker-cli-001",
+  "title": "Docker CLI Check",
+  "difficulty": "Medium",
+  "category": "Containers",
+  "description": "Verify the Docker engine CLI on this training host. Run docker version and record that the check succeeded—work directly in the lab terminal.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/docker-cli-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Open the lab terminal",
+    "Run docker version (client and server sections)",
+    "Create the check marker file at /tmp/docker-cli-checked"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "docker-version",
+      "label": "Run docker version",
+      "text": "Confirm the Docker CLI responds without errors.",
+      "hint": "If the client cannot reach the daemon, check whether you need elevated privileges or group membership on this host."
+    },
+    {
+      "id": "write-marker",
+      "label": "Record the check",
+      "text": "Leave proof in /tmp that the version check succeeded.",
+      "hint": "An empty file under /tmp is enough once docker version exits cleanly."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "docker-version",
+      "autoCheck": "command",
+      "command": ["docker", "version"]
+    },
+    { "id": "write-marker", "autoCheck": "fileExists", "path": "/tmp/docker-cli-checked" }
+  ],
+  "validation": { "type": "fileExists", "path": "/tmp/docker-cli-checked" },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["docker", "files"],
+    "suggestedCommands": ["docker-version", "touch", "which", "pwd"],
+    "redHerrings": ["ssh", "systemctl-status", "apt-install", "nginx-t"]
+  },
+  "xpReward": 130,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": ["package-install-001"]
+  }
+}

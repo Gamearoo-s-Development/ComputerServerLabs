@@ -1,0 +1,91 @@
+{
+  "id": "service-repair-001",
+  "title": "Failed Service",
+  "difficulty": "Hard",
+  "category": "Systemd",
+  "description": "A critical systemd unit fails because its ExecStart path is wrong. Inspect the unit, repair the service file, reload systemd, and bring training-agent back online.",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/service-repair-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "variation": {
+    "enabled": true,
+    "credentials": { "randomizeUsername": true },
+    "failureModes": {
+      "kind": "systemd",
+      "modes": ["missing_exec", "bad_permissions", "wrong_user", "broken_env", "disabled_service"]
+    },
+    "commandGuide": { "rotate": true }
+  },
+  "tasks": [
+    "SSH into the lab using the Lab Terminal",
+    "Inspect training-agent.service with systemctl status and journalctl",
+    "Fix the unit file ExecStart path",
+    "Run systemctl daemon-reload and start the service"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from the Lab Terminal using your session credentials.",
+      "hint": "Session SSH details are in the lab credentials section."
+    },
+    {
+      "id": "service-online",
+      "label": "training-agent.service is active",
+      "text": "Diagnose why training-agent.service failed and bring it to an active state.",
+      "hint": "Status and journal output point at the unit file. After editing ExecStart, systemd must reload unit definitions before start."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    {
+      "id": "service-online",
+      "autoCheck": "serviceRunning",
+      "service": "training-agent.service"
+    }
+  ],
+  "questions": [
+    {
+      "id": "daemon-reload",
+      "prompt": "Which command reloads systemd unit files after you edit a service?",
+      "acceptedAnswers": [
+        "systemctl daemon-reload",
+        "sudo systemctl daemon-reload",
+        "daemon-reload"
+      ]
+    }
+  ],
+  "validation": {
+    "type": "serviceRunning",
+    "service": "training-agent.service"
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "services", "logs", "files"],
+    "suggestedCommands": [
+      "ssh",
+      "systemctl-status",
+      "journalctl-u",
+      "systemctl-daemon-reload",
+      "systemctl-start",
+      "cat",
+      "nano",
+      "ls-la",
+      "grep",
+      "sudo"
+    ],
+    "redHerrings": ["nginx-t", "curl", "df-h", "chmod", "find", "du-sh"]
+  },
+  "xpReward": 180,
+  "unlockRequirements": {
+    "minLevel": 5
+  }
+}

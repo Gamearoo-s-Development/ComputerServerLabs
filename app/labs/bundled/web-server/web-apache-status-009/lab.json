@@ -1,0 +1,86 @@
+{
+  "id": "web-apache-status-009",
+  "title": "Apache Status Page",
+  "difficulty": "Medium",
+  "category": "Web Services",
+  "bundled": true,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice mod_status in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/web-apache-status-009:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "web server",
+    "mod_status",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about mod_status",
+    "Create the read marker: touch /tmp/web-apache-status-009-read",
+    "Create the completion marker: touch /tmp/web-apache-status-009-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/web-apache-status-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about mod_status and create the completion marker.",
+      "hint": "Run: touch /tmp/web-apache-status-009-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/web-apache-status-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/web-apache-status-009-complete"
+    }
+  ],
+  "hints": [
+    "Focus on mod_status.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/web-apache-status-009-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/web-apache-status-009-read",
+    "Completion marker exists at /tmp/web-apache-status-009-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/web-apache-status-009-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced mod_status in a safe container.",
+    "skillsPracticed": [
+      "Apache Status Page reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "web-tls-concepts-008"
+    ]
+  }
+}

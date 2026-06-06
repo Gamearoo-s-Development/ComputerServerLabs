@@ -1,0 +1,81 @@
+{
+  "id": "permissions-001",
+  "title": "File Permissions Repair",
+  "difficulty": "Easy",
+  "category": "Linux Permissions",
+  "description": "A web app config file has broken permissions. SSH in, inspect ownership and mode bits, then restore read access without changing the file contents.",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/permissions-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "SSH into the lab using the Lab Terminal",
+    "Inspect /var/www/config/app.conf with ls -l",
+    "Repair permissions so the file is readable (mode 644)",
+    "Verify you can read the file with cat"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from the Lab Terminal using your session credentials.",
+      "hint": "Use the credentials panel — the integrated terminal is already set up for this session."
+    },
+    {
+      "id": "inspect-config",
+      "label": "Inspect the web app config",
+      "text": "Locate the config under /var/www and check who can read it.",
+      "hint": "Long listings and stat both show owner, group, and permission bits without changing anything."
+    },
+    {
+      "id": "fix-perms",
+      "label": "Restore safe read access",
+      "text": "The app needs the config readable again without editing its contents.",
+      "hint": "Owner should keep read/write; group and others typically need read-only — express that as a three-digit mode."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    {
+      "id": "inspect-config",
+      "autoCheck": "fileExists",
+      "path": "/var/www/config/app.conf"
+    },
+    {
+      "id": "fix-perms",
+      "autoCheck": "permission",
+      "path": "/var/www/config/app.conf",
+      "mode": "644"
+    }
+  ],
+  "questions": [
+    {
+      "id": "perm-mode",
+      "prompt": "Which chmod mode gives the owner read+write and everyone else read-only access?",
+      "acceptedAnswers": ["644", "0644"]
+    }
+  ],
+  "validation": {
+    "type": "permission",
+    "path": "/var/www/config/app.conf",
+    "mode": "644"
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "files", "permissions", "navigation"],
+    "suggestedCommands": ["ssh", "ls-l", "ls-la", "stat", "cat", "chmod", "pwd", "cd", "whoami"],
+    "redHerrings": ["rm", "chown", "systemctl-status", "df-h", "find", "nginx-t"]
+  },
+  "xpReward": 120,
+  "unlockRequirements": {
+    "minLevel": 2,
+    "requiredLabs": ["beginner-linux-001"]
+  }
+}

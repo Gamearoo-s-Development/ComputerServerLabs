@@ -1,0 +1,16 @@
+SGQ Uptime — Alert INC-2041
+================================
+Service: web-frontend (public HTTP)
+Status: CRITICAL
+Started: 2026-05-28 10:05 UTC
+
+Probe results (last 5 min):
+  GET https://intranet.example-corp.local/  → 502 Bad Gateway
+  GET http://127.0.0.1/ (internal)         → connection refused :80
+
+Notes:
+  - Change ticket CHG-8821 completed at 10:04 UTC (nginx config cleanup)
+  - No database alerts at this time
+  - SSL certificate valid until 2026-11-01
+
+Escalation: Web Services on-call paged.

@@ -1,0 +1,71 @@
+{
+  "id": "desktop-helper-001",
+  "title": "Desktop + SSH Notes",
+  "difficulty": "Medium",
+  "category": "Workstations",
+  "description": "Some teams prefer a full desktop while fixing servers. Use an Ubuntu or Windows Desktop workstation (optional) to SSH into the target and drop an operator note file.",
+  "runtime": "docker",
+  "workstation": {
+    "recommended": "desktop-container-ubuntu",
+    "supported": [
+      "ubuntu-terminal",
+      "debian-terminal",
+      "desktop-container-ubuntu",
+      "desktop-container-debian",
+      "desktop-container-windows"
+    ],
+    "reason": "Desktop workstations are ideal when you want a browser or GUI file manager alongside SSH. Terminal-only workstations work too."
+  },
+  "docker": {
+    "image": "sysadmin-game/desktop-helper-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Start the lab with a Desktop or Terminal workstation",
+    "SSH to the training server",
+    "Create /var/log/operator-note.txt with your session username on the first line"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from your workstation.",
+      "hint": "Desktop labs still use SSH from the built-in terminal — session credentials are in the lab panel."
+    },
+    {
+      "id": "operator-note",
+      "label": "Create operator note",
+      "text": "Create an operator note under /var/log that records who performed the change.",
+      "hint": "A one-line file is enough — write your login name into a new file under /var/log (you may need elevated privileges)."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    {
+      "id": "operator-note",
+      "autoCheck": "command",
+      "command": ["/opt/lab/verify-operator-note"]
+    }
+  ],
+  "validation": {
+    "type": "command",
+    "command": ["/opt/lab/verify-operator-note"]
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "files"],
+    "suggestedCommands": ["ssh", "echo", "tee", "sudo", "cat", "whoami"],
+    "redHerrings": ["docker", "nginx-t", "ufw"]
+  },
+  "xpReward": 135,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": ["beginner-linux-001"]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "users-manage-001",
+  "title": "Create a Service Account",
+  "difficulty": "Medium",
+  "category": "Linux Users",
+  "description": "HR needs a read-only service account on this server. SSH in from the lab workstation and create user apprentice with a home directory.",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/users-manage-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "workstation": {
+    "recommended": "ubuntu-terminal",
+    "supported": ["ubuntu-terminal", "debian-terminal", "desktop-container-ubuntu"],
+    "reason": "SSH from a terminal or Ubuntu Desktop workstation to the training server."
+  },
+  "tasks": [
+    "SSH into the lab target",
+    "Create user apprentice with home directory",
+    "Set a login shell of /bin/bash for apprentice"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from the Lab Terminal using session credentials.",
+      "hint": "Copy username and password from the lab session panel into your SSH command."
+    },
+    {
+      "id": "create-user",
+      "label": "Create apprentice account",
+      "text": "Add UNIX user apprentice with a home directory and a normal login shell.",
+      "hint": "useradd flags control home directory and shell — verify the account with id when done."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    { "id": "create-user", "autoCheck": "userExists", "user": "apprentice" }
+  ],
+  "validation": { "type": "userExists", "user": "apprentice" },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "users"],
+    "suggestedCommands": ["ssh", "useradd", "id", "cat-etc-passwd", "sudo", "whoami"],
+    "redHerrings": ["docker", "nginx-t", "chmod", "ufw"]
+  },
+  "xpReward": 125,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": ["permissions-001"]
+  }
+}

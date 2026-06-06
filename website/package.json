@@ -1,0 +1,22 @@
+{
+  "name": "@sysadmin-game/website",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Computer Server Labs lab registry website (SPA) and API orchestration",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5174",
+    "dev:api": "npm run dev --prefix api",
+    "build": "vite build",
+    "preview": "vite preview --port 5174"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "^6.4.2"
+  }
+}

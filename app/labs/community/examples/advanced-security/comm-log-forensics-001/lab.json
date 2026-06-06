@@ -1,0 +1,86 @@
+{
+  "id": "comm-log-forensics-001",
+  "title": "Log Timeline Correlation",
+  "difficulty": "Hard",
+  "category": "Security Basics",
+  "bundled": false,
+  "estimatedTimeMinutes": 45,
+  "description": "Practice incident triage in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/comm-log-forensics-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "advanced security",
+    "incident",
+    "community"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about incident triage",
+    "Create the read marker: touch /tmp/comm-log-forensics-001-read",
+    "Create the completion marker: touch /tmp/comm-log-forensics-001-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/comm-log-forensics-001-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about incident triage and create the completion marker.",
+      "hint": "Run: touch /tmp/comm-log-forensics-001-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-log-forensics-001-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-log-forensics-001-complete"
+    }
+  ],
+  "hints": [
+    "Focus on incident triage.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/comm-log-forensics-001-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/comm-log-forensics-001-read",
+    "Completion marker exists at /tmp/comm-log-forensics-001-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/comm-log-forensics-001-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced incident triage in a safe container.",
+    "skillsPracticed": [
+      "Log Timeline Correlation reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 7,
+    "requiredLabs": [
+      "sec-ssh-hardening-002"
+    ]
+  }
+}

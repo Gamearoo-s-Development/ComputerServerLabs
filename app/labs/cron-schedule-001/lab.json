@@ -1,0 +1,62 @@
+{
+  "id": "cron-schedule-001",
+  "title": "Schedule a Cron Job",
+  "difficulty": "Medium",
+  "category": "Linux Administration",
+  "description": "Add a cron entry that writes a heartbeat file every minute. Work in the lab server directly from the integrated terminal.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/cron-schedule-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Open the lab terminal",
+    "Install cron if needed and ensure the service is running",
+    "Add a user crontab line that touches /tmp/cron-heartbeat every minute",
+    "Wait up to two minutes or run the job manually, then confirm the heartbeat file exists"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "cron-entry",
+      "label": "Add the cron schedule",
+      "text": "Schedule a recurring job that updates the heartbeat file under /tmp.",
+      "hint": "User crontabs use five time fields plus a command — every minute is the finest common interval."
+    },
+    {
+      "id": "heartbeat-file",
+      "label": "Heartbeat file present",
+      "text": "Confirm the heartbeat file exists after the job has had time to run.",
+      "hint": "List the file under /tmp or wait a minute after saving crontab — ensure the cron service is running."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "cron-entry",
+      "autoCheck": "command",
+      "command": ["/opt/lab/verify-crontab"]
+    },
+    { "id": "heartbeat-file", "autoCheck": "fileExists", "path": "/tmp/cron-heartbeat" }
+  ],
+  "validation": {
+    "type": "command",
+    "command": ["/opt/lab/verify-cron-complete"]
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["packages", "services", "files"],
+    "suggestedCommands": ["crontab", "systemctl-status", "touch", "ls", "cat"],
+    "redHerrings": ["ssh", "docker", "nginx-t"]
+  },
+  "xpReward": 140,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": ["shell-basics-001", "package-install-001"]
+  }
+}

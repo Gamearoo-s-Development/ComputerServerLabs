@@ -1,0 +1,86 @@
+{
+  "id": "net-traceroute-008",
+  "title": "Path with traceroute",
+  "difficulty": "Medium",
+  "category": "Networking",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice hop inspection in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/net-traceroute-008:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "networking",
+    "hop",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about hop inspection",
+    "Create the read marker: touch /tmp/net-traceroute-008-read",
+    "Create the completion marker: touch /tmp/net-traceroute-008-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/net-traceroute-008-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about hop inspection and create the completion marker.",
+      "hint": "Run: touch /tmp/net-traceroute-008-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-traceroute-008-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-traceroute-008-complete"
+    }
+  ],
+  "hints": [
+    "Focus on hop inspection.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/net-traceroute-008-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/net-traceroute-008-read",
+    "Completion marker exists at /tmp/net-traceroute-008-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/net-traceroute-008-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced hop inspection in a safe container.",
+    "skillsPracticed": [
+      "Path with traceroute reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "net-wget-007"
+    ]
+  }
+}

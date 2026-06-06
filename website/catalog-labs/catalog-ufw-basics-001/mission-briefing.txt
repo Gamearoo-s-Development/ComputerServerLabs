@@ -1,0 +1,10 @@
+Mission: Host Firewall with UFW
+================================
+
+You are hardening a training host. Before enabling UFW you must allow SSH and HTTP.
+
+Steps:
+1. Review ufw status.
+2. Allow OpenSSH and 80/tcp.
+3. Enable UFW.
+4. Create marker files as described in the lab objectives (training environment).

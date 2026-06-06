@@ -1,0 +1,68 @@
+{
+  "id": "disk-cleanup-001",
+  "title": "Disk Cleanup",
+  "difficulty": "Medium",
+  "category": "Storage",
+  "description": "The staging log partition is nearly full of fake rotated logs. Find the largest files, remove enough data, and free space so monitoring can resume.",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/disk-cleanup-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "SSH into the lab using the Lab Terminal",
+    "Check disk usage under /var/log/staging with df and du",
+    "Identify the largest fake log files",
+    "Delete enough logs to free meaningful space on the staging partition"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from the Lab Terminal using your session credentials.",
+      "hint": "Use the lab panel credentials with the integrated terminal."
+    },
+    {
+      "id": "cleanup-done",
+      "label": "Free enough disk space on staging",
+      "text": "Find what is filling /var/log/staging and remove enough to satisfy the cleanup check.",
+      "hint": "Compare filesystem usage with per-directory sizes — training logs here are safe to delete when obviously oversized."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    {
+      "id": "cleanup-done",
+      "autoCheck": "command",
+      "command": ["/opt/lab/verify-cleanup"]
+    }
+  ],
+  "questions": [
+    {
+      "id": "du-command",
+      "prompt": "Which command summarizes disk usage per file or directory?",
+      "acceptedAnswers": ["du", "du -sh", "du -h"]
+    }
+  ],
+  "validation": {
+    "type": "command",
+    "command": ["/opt/lab/verify-cleanup"]
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "disk", "files", "navigation"],
+    "suggestedCommands": ["ssh", "df-h", "du-sh", "ls-la", "rm", "pwd", "cd", "ls", "find"],
+    "redHerrings": ["chmod", "systemctl-status", "nginx-t", "curl", "ps-aux", "journalctl-u"]
+  },
+  "xpReward": 140,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": ["beginner-linux-001", "permissions-001"]
+  }
+}

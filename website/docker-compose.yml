@@ -1,0 +1,96 @@
+# Computer Server Labs lab registry website (Docker only — not the desktop app).
+#
+#   cd website
+#   cp .env.docker.example .env.docker
+#   docker compose up --build
+#
+# If you change MARIADB_PASSWORD after first run:
+#   docker compose down -v
+#   docker compose up --build
+#
+# Use `docker compose up` (not `--env-file .env.docker`). Secrets are loaded via
+# `env_file` below — that avoids Compose treating $ in passwords as variables.
+# If you must use --env-file, escape every literal $ as $$ in password values.
+
+name: sysadmin-registry-web
+
+services:
+  db:
+    image: mariadb:11.4
+    networks:
+      - default
+    env_file:
+      - .env.docker
+    environment:
+      MARIADB_DATABASE: registry
+      MARIADB_USER: registry
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 40s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ..
+      dockerfile: website/Dockerfile
+      args:
+        VITE_DESKTOP_DOWNLOAD_URL: ${DESKTOP_DOWNLOAD_URL:-}
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - default
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ..
+      dockerfile: website/api/Dockerfile
+    networks:
+      - default
+    env_file:
+      - .env.docker
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8787
+      NODE_ENV: production
+      MARIADB_HOST: db
+      MARIADB_PORT: 3306
+      MARIADB_USER: registry
+      MARIADB_DATABASE: registry
+      LAB_PACKS_DIR: /data/lab-packs
+      REPO_ROOT: /repo/app
+      DESKTOP_DOWNLOAD_URL: ${DESKTOP_DOWNLOAD_URL:-}
+    volumes:
+      - lab-packs:/data
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8787"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8787/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  mariadb-data:
+    name: sysadmin-registry-mariadb
+  lab-packs:
+    name: sysadmin-registry-lab-packs

@@ -1,0 +1,9 @@
+Mission: Log Rotation Basics
+============================
+
+The demo application at /var/log/demo-app/app.log grows quickly. Operations wants daily rotation with compression and only three archived copies kept.
+
+Your goals:
+1. Create /etc/logrotate.d/demo-app with daily rotation, compress, and rotate 3.
+2. Run logrotate -f against that stanza.
+3. Confirm /var/log/demo-app/app.log.1.gz exists after rotation.

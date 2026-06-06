@@ -1,0 +1,86 @@
+{
+  "id": "sec-fail2ban-concepts-004",
+  "title": "fail2ban Concepts",
+  "difficulty": "Medium",
+  "category": "Security Basics",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice ban rules in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/sec-fail2ban-concepts-004:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "security basics",
+    "ban",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about ban rules",
+    "Create the read marker: touch /tmp/sec-fail2ban-concepts-004-read",
+    "Create the completion marker: touch /tmp/sec-fail2ban-concepts-004-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/sec-fail2ban-concepts-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about ban rules and create the completion marker.",
+      "hint": "Run: touch /tmp/sec-fail2ban-concepts-004-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/sec-fail2ban-concepts-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/sec-fail2ban-concepts-004-complete"
+    }
+  ],
+  "hints": [
+    "Focus on ban rules.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/sec-fail2ban-concepts-004-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/sec-fail2ban-concepts-004-read",
+    "Completion marker exists at /tmp/sec-fail2ban-concepts-004-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/sec-fail2ban-concepts-004-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced ban rules in a safe container.",
+    "skillsPracticed": [
+      "fail2ban Concepts reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 5,
+    "requiredLabs": [
+      "sec-password-policy-003"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "net-ss-005",
+  "title": "Listening Ports with ss",
+  "difficulty": "Medium",
+  "category": "Networking",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice socket states in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/net-ss-005:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "networking",
+    "socket",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about socket states",
+    "Create the read marker: touch /tmp/net-ss-005-read",
+    "Create the completion marker: touch /tmp/net-ss-005-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/net-ss-005-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about socket states and create the completion marker.",
+      "hint": "Run: touch /tmp/net-ss-005-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-ss-005-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-ss-005-complete"
+    }
+  ],
+  "hints": [
+    "Focus on socket states.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/net-ss-005-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/net-ss-005-read",
+    "Completion marker exists at /tmp/net-ss-005-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/net-ss-005-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced socket states in a safe container.",
+    "skillsPracticed": [
+      "Listening Ports with ss reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "net-dns-004"
+    ]
+  }
+}

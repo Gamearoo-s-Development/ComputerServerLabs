@@ -1,0 +1,86 @@
+{
+  "id": "perm-setgid-009",
+  "title": "setgid on Directories",
+  "difficulty": "Hard",
+  "category": "Linux Permissions",
+  "bundled": true,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice collaboration dirs in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/perm-setgid-009:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "file permissions",
+    "collaboration",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about collaboration dirs",
+    "Create the read marker: touch /tmp/perm-setgid-009-read",
+    "Create the completion marker: touch /tmp/perm-setgid-009-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/perm-setgid-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about collaboration dirs and create the completion marker.",
+      "hint": "Run: touch /tmp/perm-setgid-009-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-setgid-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-setgid-009-complete"
+    }
+  ],
+  "hints": [
+    "Focus on collaboration dirs.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/perm-setgid-009-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/perm-setgid-009-read",
+    "Completion marker exists at /tmp/perm-setgid-009-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/perm-setgid-009-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced collaboration dirs in a safe container.",
+    "skillsPracticed": [
+      "setgid on Directories reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": [
+      "perm-sticky-008"
+    ]
+  }
+}

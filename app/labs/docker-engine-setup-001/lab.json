@@ -1,0 +1,58 @@
+{
+  "id": "docker-engine-setup-001",
+  "title": "Install Docker Engine",
+  "difficulty": "Medium",
+  "category": "Containers",
+  "description": "This legacy app server needs Docker for a migration pilot. SSH in and install the Docker engine package, then confirm the service is available.",
+  "runtime": "docker",
+  "workstation": {
+    "recommended": "ubuntu-terminal",
+    "supported": ["ubuntu-terminal", "debian-terminal", "desktop-container-ubuntu", "desktop-container-debian"],
+    "reason": "Use a terminal workstation to SSH in, or Ubuntu Desktop if you prefer a graphical environment while following install docs."
+  },
+  "docker": {
+    "image": "sysadmin-game/docker-engine-setup-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "SSH into the server",
+    "Install docker.io using apt",
+    "Verify docker version succeeds"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect with session credentials.",
+      "hint": "Use the lab credentials panel with your workstation terminal."
+    },
+    {
+      "id": "install-docker",
+      "label": "Install Docker engine",
+      "text": "Install the distribution Docker engine package and confirm the CLI works.",
+      "hint": "On Debian/Ubuntu the engine package is often named docker.io — apt install, then run a version command."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    { "id": "install-docker", "autoCheck": "packageInstalled", "package": "docker.io" }
+  ],
+  "validation": { "type": "packageInstalled", "package": "docker.io" },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "packages", "docker"],
+    "suggestedCommands": ["ssh", "apt-update", "apt-install", "docker-version", "systemctl-status"],
+    "redHerrings": ["nginx-t", "ufw", "chmod"]
+  },
+  "xpReward": 150,
+  "unlockRequirements": {
+    "minLevel": 4,
+    "requiredLabs": ["package-install-001", "permissions-001"]
+  }
+}

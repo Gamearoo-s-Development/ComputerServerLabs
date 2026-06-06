@@ -1,0 +1,420 @@
+{
+
+  "defaultProfileId": "ubuntu-terminal",
+
+  "preferenceOptions": [
+
+    { "id": "auto", "name": "Auto / Lab Recommended" },
+
+    { "id": "ubuntu-terminal", "name": "Docker Ubuntu Terminal" },
+
+    { "id": "debian-terminal", "name": "Docker Debian Terminal" },
+
+    { "id": "kali-terminal", "name": "Kali Terminal Workstation (security labs)" },
+
+    { "id": "desktop-container-ubuntu", "name": "Ubuntu Desktop Workstation" },
+
+    { "id": "desktop-container-debian", "name": "Debian Desktop Workstation" },
+
+    { "id": "desktop-container-kali", "name": "Kali Desktop Workstation" },
+
+    { "id": "desktop-container-windows", "name": "Windows Desktop Workstation" },
+
+    { "id": "wsl-local-terminal", "name": "WSL Local Linux Terminal (advanced)" },
+
+    { "id": "local-terminal", "name": "Local Terminal (advanced)" }
+
+  ],
+
+  "profiles": [
+
+    {
+
+      "id": "ubuntu-terminal",
+
+      "name": "Ubuntu Terminal Workstation",
+
+      "kind": "linux-terminal",
+
+      "provider": "docker-linux-terminal",
+
+      "type": "linux",
+
+      "image": "sysadmin-game/lab-workstation:ubuntu",
+
+      "buildPath": "_shared/workstations/ubuntu-workstation",
+
+      "defaultShell": "bash",
+
+      "terminalShell": "/bin/bash",
+
+      "accessModes": ["terminal"],
+
+      "capabilities": ["linux", "terminal", "docker", "ssh"],
+
+      "tools": ["ssh", "scp", "curl", "wget", "nano", "vim", "less", "grep", "ping", "nc"],
+
+      "distro": "Ubuntu",
+
+      "distroVersion": "22.04",
+
+      "recommendedDifficulty": "Easy",
+
+      "estimatedImageSizeMb": 130,
+
+      "description": "Full Ubuntu terminal jump box on an isolated Docker network."
+
+    },
+
+    {
+
+      "id": "debian-terminal",
+
+      "name": "Debian Terminal Workstation",
+
+      "kind": "linux-terminal",
+
+      "provider": "docker-linux-terminal",
+
+      "type": "linux",
+
+      "image": "sysadmin-game/lab-workstation:debian",
+
+      "buildPath": "_shared/workstations/debian-workstation",
+
+      "defaultShell": "bash",
+
+      "terminalShell": "/bin/bash",
+
+      "accessModes": ["terminal"],
+
+      "capabilities": ["linux", "terminal", "docker", "ssh"],
+
+      "tools": ["ssh", "scp", "curl", "wget", "nano", "vim", "less", "grep", "ping", "nc"],
+
+      "distro": "Debian",
+
+      "distroVersion": "12",
+
+      "recommendedDifficulty": "Easy",
+
+      "estimatedImageSizeMb": 120,
+
+      "description": "Debian terminal environment for traditional Linux admin workflows."
+
+    },
+
+    {
+
+      "id": "kali-terminal",
+
+      "name": "Kali Terminal Workstation",
+
+      "kind": "linux-terminal",
+
+      "provider": "docker-linux-terminal",
+
+      "type": "linux",
+
+      "image": "sysadmin-game/lab-workstation:kali",
+
+      "buildPath": "_shared/workstations/kali-workstation",
+
+      "defaultShell": "bash",
+
+      "terminalShell": "/bin/bash",
+
+      "accessModes": ["terminal"],
+
+      "capabilities": ["linux", "terminal", "docker", "ssh", "security-tools"],
+
+      "tools": ["ssh", "nmap", "curl", "wget", "nc", "grep", "ping"],
+
+      "distro": "Kali",
+
+      "recommendedDifficulty": "Hard",
+
+      "estimatedImageSizeMb": 350,
+
+      "advancedOnly": true,
+
+      "description": "Kali Linux terminal jump box with basic enumeration tools for isolated security simulation labs."
+
+    },
+
+    {
+
+      "id": "desktop-container-ubuntu",
+
+      "name": "Ubuntu Desktop Workstation",
+
+      "kind": "linux-desktop",
+
+      "provider": "desktop-container-ubuntu",
+
+      "type": "linux",
+
+      "image": "",
+
+      "defaultShell": "bash",
+
+      "accessModes": ["desktop"],
+
+      "capabilities": [
+        "linux",
+        "desktop",
+        "docker",
+        "terminal",
+        "shell",
+        "browser",
+        "ssh",
+        "ssh-client"
+      ],
+
+      "tools": ["browser-desktop", "vnc", "bash", "openssh"],
+
+      "distro": "Ubuntu",
+
+      "recommendedDifficulty": "Hard",
+
+      "estimatedImageSizeMb": 4000,
+
+      "advancedOnly": true,
+
+      "requiresDockerWindowsContainers": false,
+
+      "description": "Full Linux desktop in Docker/QEMU. Configure a trusted image in config/workstation.desktop.json."
+
+    },
+
+    {
+
+      "id": "desktop-container-debian",
+
+      "name": "Debian Desktop Workstation",
+
+      "kind": "linux-desktop",
+
+      "provider": "desktop-container-debian",
+
+      "type": "linux",
+
+      "image": "",
+
+      "defaultShell": "bash",
+
+      "accessModes": ["desktop"],
+
+      "capabilities": [
+        "linux",
+        "desktop",
+        "docker",
+        "terminal",
+        "shell",
+        "browser",
+        "ssh",
+        "ssh-client"
+      ],
+
+      "tools": ["browser-desktop", "vnc", "bash", "openssh"],
+
+      "distro": "Debian",
+
+      "recommendedDifficulty": "Hard",
+
+      "estimatedImageSizeMb": 3500,
+
+      "advancedOnly": true,
+
+      "requiresDockerWindowsContainers": false,
+
+      "description": "Debian desktop in Docker/QEMU. Configure a trusted image in config/workstation.desktop.json."
+
+    },
+
+    {
+
+      "id": "desktop-container-kali",
+
+      "name": "Kali Desktop Workstation",
+
+      "kind": "linux-desktop",
+
+      "provider": "desktop-container-kali",
+
+      "type": "linux",
+
+      "image": "sysadmin-game/kali-desktop:latest",
+
+      "buildPath": "_shared/workstations/kali-desktop",
+
+      "defaultShell": "bash",
+
+      "accessModes": ["desktop"],
+
+      "capabilities": [
+        "linux",
+        "desktop",
+        "docker",
+        "terminal",
+        "shell",
+        "browser",
+        "ssh",
+        "ssh-client",
+        "security-tools"
+      ],
+
+      "tools": ["browser-desktop", "vnc", "bash", "openssh", "security-tools"],
+
+      "distro": "Kali",
+
+      "recommendedDifficulty": "Expert",
+
+      "estimatedImageSizeMb": 6000,
+
+      "advancedOnly": true,
+
+      "requiresDockerWindowsContainers": false,
+
+      "description": "Kali XFCE desktop built from kalilinux/kali-rolling (noVNC on port 3000). First lab start builds the image locally."
+
+    },
+
+    {
+
+      "id": "desktop-container-windows",
+
+      "name": "Windows Desktop Workstation",
+
+      "kind": "windows-desktop",
+
+      "provider": "desktop-container-windows",
+
+      "type": "windows",
+
+      "image": "dockurr/windows",
+
+      "defaultShell": "powershell",
+
+      "accessModes": ["desktop"],
+
+      "capabilities": [
+        "windows",
+        "desktop",
+        "docker",
+        "terminal",
+        "shell",
+        "powershell",
+        "browser",
+        "ssh",
+        "ssh-client"
+      ],
+
+      "tools": ["rdp", "browser-desktop", "powershell", "openssh"],
+
+      "distro": "Windows",
+
+      "distroVersion": "11 (VM)",
+
+      "recommendedDifficulty": "Hard",
+
+      "estimatedImageSizeMb": 8000,
+
+      "advancedOnly": true,
+
+      "requiresDockerWindowsContainers": false,
+
+      "description": "Full Windows desktop through a Docker-managed VM container. Heavier than terminal workstations. Requires KVM and user licensing."
+
+    },
+
+    {
+
+      "id": "wsl-local-terminal",
+
+      "name": "WSL Local Linux Terminal",
+
+      "kind": "wsl-terminal",
+
+      "provider": "host-wsl-terminal",
+
+      "type": "wsl",
+
+      "runtime": "wsl",
+
+      "image": null,
+
+      "defaultShell": "bash",
+
+      "accessModes": ["terminal"],
+
+      "capabilities": ["linux", "terminal", "shell"],
+
+      "tools": ["bash", "ssh"],
+
+      "distro": "WSL",
+
+      "recommendedDifficulty": "Expert",
+
+      "advancedOnly": true,
+
+      "notRecommended": true,
+
+      "notSandboxed": true,
+
+      "requiresHostOs": "win32",
+
+      "requiresExplicitOptIn": true,
+
+      "unavailableMessage": "Enable WSL Local Linux Terminal under Settings → Advanced (Windows only, requires WSL 2).",
+
+      "description": "Uses your real WSL distribution. Commands may affect files inside your WSL environment. Docker container workstations are safer."
+
+    },
+
+    {
+
+      "id": "local-terminal",
+
+      "name": "Local Terminal Workstation",
+
+      "kind": "host-terminal",
+
+      "provider": "host-local-terminal",
+
+      "type": "host",
+
+      "runtime": "local",
+
+      "image": null,
+
+      "defaultShell": "host",
+
+      "accessModes": ["terminal"],
+
+      "capabilities": ["terminal", "ssh"],
+
+      "tools": ["ssh"],
+
+      "distro": "Your PC",
+
+      "recommendedDifficulty": "Expert",
+
+      "advancedOnly": true,
+
+      "notRecommended": true,
+
+      "notSandboxed": true,
+
+      "requiresExplicitOptIn": true,
+
+      "unavailableMessage": "Enable Local Terminal Workstation under Settings → Advanced before using this option.",
+
+      "description": "Uses your real system terminal — not sandboxed. Commands may affect your computer."
+
+    }
+
+  ]
+
+}
+

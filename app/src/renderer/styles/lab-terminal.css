@@ -1,0 +1,25 @@
+html.terminal-window-body,
+body.terminal-window-body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0c10;
+}
+
+body.terminal-window-body #root {
+  height: 100%;
+}
+
+/* xterm host — full-bleed inside lab terminal window */
+.lab-terminal-host .xterm {
+  height: 100%;
+  padding: 4px 6px;
+}
+
+.lab-terminal-host .xterm-viewport {
+  overflow-y: auto !important;
+}
+
+.lab-terminal-host .xterm-screen {
+  height: 100%;
+}

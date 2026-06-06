@@ -1,0 +1,86 @@
+{
+  "id": "comm-container-scan-004",
+  "title": "Container Image Labels",
+  "difficulty": "Hard",
+  "category": "Security Basics",
+  "bundled": false,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice supply chain in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/comm-container-scan-004:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "advanced security",
+    "supply",
+    "community"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about supply chain",
+    "Create the read marker: touch /tmp/comm-container-scan-004-read",
+    "Create the completion marker: touch /tmp/comm-container-scan-004-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/comm-container-scan-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about supply chain and create the completion marker.",
+      "hint": "Run: touch /tmp/comm-container-scan-004-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-container-scan-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-container-scan-004-complete"
+    }
+  ],
+  "hints": [
+    "Focus on supply chain.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/comm-container-scan-004-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/comm-container-scan-004-read",
+    "Completion marker exists at /tmp/comm-container-scan-004-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/comm-container-scan-004-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced supply chain in a safe container.",
+    "skillsPracticed": [
+      "Container Image Labels reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 7,
+    "requiredLabs": [
+      "comm-secrets-scan-003"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "linux-nav-003",
+  "title": "Directory Navigation",
+  "difficulty": "Easy",
+  "category": "Linux Basics",
+  "bundled": true,
+  "estimatedTimeMinutes": 15,
+  "description": "Practice cd, pwd, and ls in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/linux-nav-003:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "linux basics",
+    "cd,",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about cd, pwd, and ls",
+    "Create the read marker: touch /tmp/linux-nav-003-read",
+    "Create the completion marker: touch /tmp/linux-nav-003-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/linux-nav-003-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about cd, pwd, and ls and create the completion marker.",
+      "hint": "Run: touch /tmp/linux-nav-003-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-nav-003-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-nav-003-complete"
+    }
+  ],
+  "hints": [
+    "Focus on cd, pwd, and ls.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/linux-nav-003-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/linux-nav-003-read",
+    "Completion marker exists at /tmp/linux-nav-003-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/linux-nav-003-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced cd, pwd, and ls in a safe container.",
+    "skillsPracticed": [
+      "Directory Navigation reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 50,
+  "unlockRequirements": {
+    "minLevel": 1,
+    "requiredLabs": [
+      "beginner-linux-001"
+    ]
+  }
+}

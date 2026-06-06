@@ -1,0 +1,180 @@
+{
+  "id": "nginx-001",
+  "title": "Broken NGINX",
+  "difficulty": "Medium",
+  "category": "Web Services",
+  "description": "The web service is down because NGINX failed to start. Diagnose the issue, repair the configuration, and restore HTTP on port 80.",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/nginx-001:latest",
+    "buildPath": "..",
+    "ports": [
+      {
+        "containerPort": 22,
+        "protocol": "tcp",
+        "purpose": "ssh",
+        "exposeToHost": false,
+        "showToUser": false
+      },
+      {
+        "containerPort": 80,
+        "protocol": "tcp",
+        "purpose": "web",
+        "label": "Web Service",
+        "exposeToHost": true,
+        "showToUser": true,
+        "hint": "Open this in your browser when checking the web service.",
+        "spoilLevel": "low"
+      }
+    ]
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "variation": {
+    "enabled": true,
+    "credentials": { "randomizeUsername": true },
+    "failureModes": {
+      "kind": "nginx",
+      "modes": ["syntax_typo", "bad_listen", "broken_include", "missing_index", "wrong_permissions"]
+    },
+    "commandGuide": { "rotate": true }
+  },
+  "tasks": [
+    "SSH into the lab using the Lab Terminal",
+    "Test NGINX configuration syntax",
+    "Repair the broken site configuration",
+    "Start NGINX and confirm the web service responds"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "SSH into the lab",
+      "text": "Connect from the Lab Terminal using your session credentials.",
+      "hint": "Use the session credentials shown in the lab panel with the integrated terminal."
+    },
+    {
+      "id": "check-web",
+      "label": "Inspect the web service",
+      "text": "Validate the web server configuration and check whether the site responds.",
+      "serviceRef": "web",
+      "hint": "NGINX can test config without starting the daemon — then try the published web route from your browser."
+    },
+    {
+      "id": "restore-http",
+      "label": "Restore HTTP",
+      "text": "Repair the broken site configuration and bring the service back online.",
+      "hint": "Syntax errors often live under sites-enabled. After fixing, reload or start the service and confirm something listens on port 80."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    { "id": "check-web", "autoCheck": "command", "command": ["nginx", "-t"] },
+    { "id": "restore-http", "autoCheck": "portOpen", "port": 80 }
+  ],
+  "questions": [
+    {
+      "id": "nginx-test",
+      "prompt": "Which command tests NGINX configuration syntax without starting the server?",
+      "acceptedAnswers": ["nginx -t", "sudo nginx -t"]
+    }
+  ],
+  "validation": {
+    "type": "httpResponse",
+    "url": "http://127.0.0.1/",
+    "expectedStatus": 200
+  },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "web-servers", "services", "files", "logs"],
+    "suggestedCommands": [
+      "ssh",
+      "nginx-t",
+      "systemctl-status",
+      "systemctl-start",
+      "curl",
+      "cat",
+      "nano",
+      "ls-la",
+      "grep",
+      "sudo"
+    ],
+    "redHerrings": ["df-h", "chmod", "journalctl-xe", "rm", "du-sh", "find"]
+  },
+  "objectiveDisplay": "visible",
+  "commandTracking": { "enabled": true },
+  "ticket": {
+    "id": "INC-2041",
+    "type": "incident",
+    "priority": "high",
+    "department": "Web Services",
+    "requester": "Alex Johnson",
+    "summary": "Company website stopped loading after a config update.",
+    "description": "Users report a 502 Bad Gateway error after last night's maintenance on the public web stack.",
+    "createdAt": "2026-05-28T14:10:00Z",
+    "history": [
+      {
+        "time": "2026-05-28T14:12:00Z",
+        "author": "Monitoring Bot",
+        "message": "HTTP health checks failing on web service (502)."
+      },
+      {
+        "time": "2026-05-28T14:15:00Z",
+        "author": "Web Team",
+        "message": "Last change involved nginx configuration cleanup in sites-enabled."
+      }
+    ]
+  },
+  "incident": {
+    "severity": "high",
+    "affectedServices": ["Web Service", "NGINX", "Public HTTP"],
+    "outageBanner": true,
+    "monitoringSystem": "CSL Uptime",
+    "timeline": [
+      {
+        "time": "2026-05-28T10:04:00Z",
+        "label": "Change window",
+        "detail": "nginx site config updated during scheduled maintenance."
+      },
+      {
+        "time": "2026-05-28T10:05:00Z",
+        "label": "Health checks",
+        "detail": "Synthetic monitors began reporting failures."
+      },
+      {
+        "time": "2026-05-28T10:07:00Z",
+        "label": "Customer reports",
+        "detail": "Helpdesk queue spike — users cannot reach the homepage."
+      }
+    ],
+    "monitoringAlerts": [
+      {
+        "title": "HTTP 502 — web-frontend",
+        "message": "Upstream returned bad gateway for 100% of probes in us-east.",
+        "severity": "high"
+      }
+    ]
+  },
+  "attachments": [
+    {
+      "id": "monitoring-alert",
+      "filename": "monitoring-alert.txt",
+      "title": "Monitoring alert export",
+      "type": "alert",
+      "visibleAtStart": true
+    }
+  ],
+  "postLabReview": {
+    "summary": "You restored the public web service by repairing the broken NGINX configuration.",
+    "rootCause": "A syntax or directive error in the nginx site config prevented the daemon from serving HTTP on port 80.",
+    "skills": ["nginx", "linux", "web services", "troubleshooting"],
+    "recommendedLabs": ["service-repair-001"]
+  },
+  "xpReward": 150,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": ["beginner-linux-001", "permissions-001"]
+  }
+}

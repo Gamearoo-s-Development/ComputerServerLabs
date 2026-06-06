@@ -1,0 +1,91 @@
+# Computer Server Labs — electron-builder configuration (Windows + Linux only)
+# See README.md § Packaging and docs/MVP_STEP_BY_STEP.md Phase 12.
+
+appId: com.sysadmingame.quizes
+productName: Computer Server Labs
+copyright: Copyright © Computer Server Labs Contributors
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+
+directories:
+  output: dist
+  buildResources: build
+
+# Application code (out/ from electron-vite) + production dependencies only.
+# Labs, config, docs, and assets ship via extraResources (process.resourcesPath).
+files:
+  - out/**/*
+  - package.json
+  - "!**/.env"
+  - "!**/.env.*"
+  - "!database/**"
+  - "!labs/**"
+  - "!config/**"
+  - "!docs/**"
+  - "!assets/**"
+  - "!src/**"
+  - "!**/.git/**"
+  - "!**/.github/**"
+  - "!**/node_modules/.cache/**"
+
+asarUnpack:
+  - node_modules/better-sqlite3/**/*
+
+extraResources:
+  - from: labs
+    to: labs
+    filter:
+      - "**/*"
+      - "!**/.gitkeep"
+  - from: config
+    to: config
+    filter:
+      - "**/*"
+      - "!**/.gitkeep"
+  - from: docs
+    to: docs
+    filter:
+      - "**/*"
+  - from: assets
+    to: assets
+    filter:
+      - "**/*"
+  - from: src/main/db/schema.sql
+    to: db/schema.sql
+
+# Native module rebuild for the packaged Electron version (also see npm postinstall).
+npmRebuild: true
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  # PNG works; for best NSIS results generate build/icon.ico — see build/ICON.md
+  icon: assets/icon.png
+
+linux:
+  target:
+    - target: AppImage
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
+  icon: assets/icon.png
+  category: Education
+  maintainer: Computer Server Labs Contributors
+  synopsis: Hands-on server and system admin labs with Docker workstations
+  description: Interactive server, Linux, Windows, and troubleshooting labs using isolated Docker containers.
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Computer Server Labs
+
+deb:
+  priority: optional
+
+# macOS packaging intentionally omitted for MVP (Phase 12 scope).

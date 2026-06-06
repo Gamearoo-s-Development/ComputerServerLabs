@@ -1,0 +1,60 @@
+{
+  "id": "community-template-001",
+  "title": "Community Lab Template",
+  "difficulty": "Easy",
+  "category": "Community",
+  "bundled": false,
+  "estimatedTimeMinutes": 15,
+  "description": "Minimal template for authoring a safe Docker-only community lab. Copy this folder and replace ids, tasks, and markers.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/community-template-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": ["template", "community", "authoring"],
+  "safetyNotes": [
+    "Template only — customize before publishing.",
+    "Keep all learner actions inside the container."
+  ],
+  "tasks": [
+    "Read ~/README.txt",
+    "Create the completion marker described in the briefing",
+    "Run Check in the lab panel"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "complete",
+      "label": "Create completion marker",
+      "text": "Create /tmp/community-template-001-complete",
+      "hint": "Use touch with the path from the briefing."
+    }
+  ],
+  "objectives": [
+    { "id": "complete", "autoCheck": "fileExists", "path": "/tmp/community-template-001-complete" }
+  ],
+  "hints": [
+    "Replace this template id and paths when copying.",
+    "Add a Dockerfile + lab-setup.sh to make the lab runnable."
+  ],
+  "successCriteria": [
+    "Completion marker file exists at the path in validation"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/community-template-001-complete"
+  },
+  "postLabReview": {
+    "summary": "You completed the template exercise.",
+    "skillsPracticed": [
+      "Replace objectives and validation for your scenario.",
+      "Document expected commands in README.md."
+    ]
+  },
+  "xpReward": 10,
+  "unlockRequirements": {
+    "minLevel": 5,
+    "requiredLabs": ["beginner-linux-001"]
+  }
+}

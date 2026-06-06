@@ -1,0 +1,37 @@
+# Git and IDE
+.git
+.github
+.cursor
+**/.DS_Store
+
+# Dependencies and build output
+node_modules
+**/node_modules
+out
+dist
+dist-package-log.txt
+
+# Local runtime data (compose uses named volumes instead)
+server/data
+server/.env
+.env
+.env.*
+!.env.docker.example
+
+# Desktop app / labs dev artifacts not needed for registry images
+patches
+build
+electron-builder.yml
+electron.vite.config.js
+resources
+assets/icon.png
+icon.png
+
+# Docs and tests (not required in images)
+docs
+*.md
+!server/README.md
+!website/README.md
+
+# Native / large
+terminals

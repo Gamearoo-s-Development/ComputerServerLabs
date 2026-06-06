@@ -1,0 +1,86 @@
+{
+  "id": "db-insert-004",
+  "title": "Insert Training Rows",
+  "difficulty": "Medium",
+  "category": "Databases",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice INSERT in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/db-insert-004:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "databases",
+    "insert",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about INSERT",
+    "Create the read marker: touch /tmp/db-insert-004-read",
+    "Create the completion marker: touch /tmp/db-insert-004-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/db-insert-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about INSERT and create the completion marker.",
+      "hint": "Run: touch /tmp/db-insert-004-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/db-insert-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/db-insert-004-complete"
+    }
+  ],
+  "hints": [
+    "Focus on INSERT.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/db-insert-004-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/db-insert-004-read",
+    "Completion marker exists at /tmp/db-insert-004-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/db-insert-004-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced INSERT in a safe container.",
+    "skillsPracticed": [
+      "Insert Training Rows reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 5,
+    "requiredLabs": [
+      "db-select-filter-003"
+    ]
+  }
+}

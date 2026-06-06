@@ -1,0 +1,86 @@
+{
+  "id": "linux-find-009",
+  "title": "Find Files by Name",
+  "difficulty": "Easy",
+  "category": "Linux Basics",
+  "bundled": true,
+  "estimatedTimeMinutes": 25,
+  "description": "Practice find basics in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/linux-find-009:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "linux basics",
+    "find",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about find basics",
+    "Create the read marker: touch /tmp/linux-find-009-read",
+    "Create the completion marker: touch /tmp/linux-find-009-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/linux-find-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about find basics and create the completion marker.",
+      "hint": "Run: touch /tmp/linux-find-009-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-find-009-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/linux-find-009-complete"
+    }
+  ],
+  "hints": [
+    "Focus on find basics.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/linux-find-009-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/linux-find-009-read",
+    "Completion marker exists at /tmp/linux-find-009-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/linux-find-009-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced find basics in a safe container.",
+    "skillsPracticed": [
+      "Find Files by Name reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 50,
+  "unlockRequirements": {
+    "minLevel": 1,
+    "requiredLabs": [
+      "linux-grep-008"
+    ]
+  }
+}

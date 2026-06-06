@@ -1,0 +1,57 @@
+{
+  "_comment": "Shipped defaults for Docker/QEMU desktop workstations. User overrides live in app data desktop-runtime.json.",
+  "allowWithoutKvm": false,
+  "resourceWarning": "Desktop workstations are heavier than terminal containers and may require several GB of RAM and disk.",
+  "kaliResourceWarning": "Kali images are larger and intended for advanced labs.",
+  "desktopWorkstations": {
+    "ubuntu": {
+      "id": "desktop-container-ubuntu",
+      "name": "Ubuntu Desktop Workstation",
+      "provider": "desktop-container-ubuntu",
+      "osFamily": "linux",
+      "enabled": true,
+      "image": "lscr.io/linuxserver/webtop:ubuntu-kde",
+      "trusted": false,
+      "webViewerPort": 3000,
+      "accessPorts": [3000, 3001],
+      "environment": {}
+    },
+    "debian": {
+      "id": "desktop-container-debian",
+      "name": "Debian Desktop Workstation",
+      "provider": "desktop-container-debian",
+      "osFamily": "linux",
+      "enabled": true,
+      "image": "lscr.io/linuxserver/webtop:debian-xfce",
+      "trusted": false,
+      "webViewerPort": 3000,
+      "accessPorts": [3000, 3001],
+      "environment": {}
+    },
+    "kali": {
+      "id": "desktop-container-kali",
+      "name": "Kali Desktop Workstation",
+      "provider": "desktop-container-kali",
+      "osFamily": "linux",
+      "enabled": true,
+      "image": "sysadmin-game/kali-desktop:latest",
+      "trusted": false,
+      "webViewerPort": 3000,
+      "accessPorts": [3000, 3001],
+      "environment": {}
+    },
+    "windows": {
+      "id": "desktop-container-windows",
+      "name": "Windows Desktop Workstation",
+      "provider": "desktop-container-windows",
+      "osFamily": "windows",
+      "enabled": true,
+      "image": "dockurr/windows:latest",
+      "trusted": false,
+      "webViewerPort": 8006,
+      "accessPorts": [8006, 3389, 5900],
+      "defaultVersion": "win11",
+      "environment": {}
+    }
+  }
+}

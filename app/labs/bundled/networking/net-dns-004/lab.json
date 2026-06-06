@@ -1,0 +1,86 @@
+{
+  "id": "net-dns-004",
+  "title": "DNS Lookup",
+  "difficulty": "Easy",
+  "category": "Networking",
+  "bundled": true,
+  "estimatedTimeMinutes": 20,
+  "description": "Practice dig/host/nslookup in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/net-dns-004:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "networking",
+    "dig/host/nslookup",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about dig/host/nslookup",
+    "Create the read marker: touch /tmp/net-dns-004-read",
+    "Create the completion marker: touch /tmp/net-dns-004-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/net-dns-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about dig/host/nslookup and create the completion marker.",
+      "hint": "Run: touch /tmp/net-dns-004-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-dns-004-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/net-dns-004-complete"
+    }
+  ],
+  "hints": [
+    "Focus on dig/host/nslookup.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/net-dns-004-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/net-dns-004-read",
+    "Completion marker exists at /tmp/net-dns-004-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/net-dns-004-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced dig/host/nslookup in a safe container.",
+    "skillsPracticed": [
+      "DNS Lookup reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 50,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": [
+      "net-ping-003"
+    ]
+  }
+}

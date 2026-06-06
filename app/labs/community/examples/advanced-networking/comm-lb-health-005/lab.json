@@ -1,0 +1,86 @@
+{
+  "id": "comm-lb-health-005",
+  "title": "Load Balancer Health",
+  "difficulty": "Hard",
+  "category": "Networking",
+  "bundled": false,
+  "estimatedTimeMinutes": 35,
+  "description": "Practice backend probes in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/comm-lb-health-005:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "advanced networking",
+    "backend",
+    "community"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about backend probes",
+    "Create the read marker: touch /tmp/comm-lb-health-005-read",
+    "Create the completion marker: touch /tmp/comm-lb-health-005-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/comm-lb-health-005-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about backend probes and create the completion marker.",
+      "hint": "Run: touch /tmp/comm-lb-health-005-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-lb-health-005-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/comm-lb-health-005-complete"
+    }
+  ],
+  "hints": [
+    "Focus on backend probes.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/comm-lb-health-005-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/comm-lb-health-005-read",
+    "Completion marker exists at /tmp/comm-lb-health-005-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/comm-lb-health-005-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced backend probes in a safe container.",
+    "skillsPracticed": [
+      "Load Balancer Health reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 110,
+  "unlockRequirements": {
+    "minLevel": 7,
+    "requiredLabs": [
+      "comm-ipv6-neigh-004"
+    ]
+  }
+}

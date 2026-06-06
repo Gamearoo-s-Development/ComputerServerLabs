@@ -1,0 +1,52 @@
+{
+  "id": "package-install-001",
+  "title": "Install a Package",
+  "difficulty": "Easy",
+  "category": "Linux Administration",
+  "description": "The monitoring team needs htop on this server. Use apt to install it from the integrated lab terminal—no separate workstation.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/package-install-001:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "tasks": [
+    "Open the lab terminal",
+    "Update package indexes if needed",
+    "Install the htop package",
+    "Confirm htop is available on PATH"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "install-htop",
+      "label": "Install htop",
+      "text": "Install the htop package using the system package manager.",
+      "hint": "Debian-based hosts use apt — refresh indexes if installs fail, then install the package name from the task list."
+    }
+  ],
+  "objectives": [
+    {
+      "id": "install-htop",
+      "autoCheck": "packageInstalled",
+      "package": "htop"
+    }
+  ],
+  "validation": { "type": "packageInstalled", "package": "htop" },
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["packages", "navigation"],
+    "suggestedCommands": ["apt-update", "apt-install", "which", "dpkg-l", "sudo"],
+    "redHerrings": ["ssh", "systemctl-status", "docker", "chmod"]
+  },
+  "xpReward": 100,
+  "unlockRequirements": {
+    "minLevel": 2,
+    "requiredLabs": ["shell-basics-001"]
+  }
+}

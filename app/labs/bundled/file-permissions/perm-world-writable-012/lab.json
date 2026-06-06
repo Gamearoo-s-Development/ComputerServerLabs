@@ -1,0 +1,86 @@
+{
+  "id": "perm-world-writable-012",
+  "title": "Find World-Writable Files",
+  "difficulty": "Medium",
+  "category": "Linux Permissions",
+  "bundled": true,
+  "estimatedTimeMinutes": 30,
+  "description": "Practice audit hygiene in an isolated Docker training environment. Complete the briefing tasks and create the completion marker.",
+  "labMode": "target-only",
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/perm-world-writable-012:latest",
+    "buildPath": "..",
+    "ports": []
+  },
+  "tags": [
+    "file permissions",
+    "audit",
+    "bundled"
+  ],
+  "safetyNotes": [
+    "Commands run only inside the lab container — not on your host.",
+    "Do not paste destructive commands (rm -rf /, mkfs, dd to disks) even inside the lab."
+  ],
+  "tasks": [
+    "Open the lab terminal (session user is already logged in)",
+    "Read the briefing in ~/README.txt about audit hygiene",
+    "Create the read marker: touch /tmp/perm-world-writable-012-read",
+    "Create the completion marker: touch /tmp/perm-world-writable-012-complete",
+    "Use Check in the lab panel — the lab completes when objectives pass"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "read-briefing",
+      "label": "Read the briefing",
+      "text": "Read ~/README.txt and mark it read.",
+      "hint": "Run: touch /tmp/perm-world-writable-012-read"
+    },
+    {
+      "id": "complete-lab",
+      "label": "Finish the exercise",
+      "text": "Apply what you learned about audit hygiene and create the completion marker.",
+      "hint": "Run: touch /tmp/perm-world-writable-012-complete"
+    }
+  ],
+  "objectives": [
+    {
+      "id": "read-briefing",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-world-writable-012-read"
+    },
+    {
+      "id": "complete-lab",
+      "autoCheck": "fileExists",
+      "path": "/tmp/perm-world-writable-012-complete"
+    }
+  ],
+  "hints": [
+    "Focus on audit hygiene.",
+    "Use ls, cat, and touch — no root privileges required.",
+    "Completion marker path: /tmp/perm-world-writable-012-complete"
+  ],
+  "successCriteria": [
+    "Briefing read marker exists at /tmp/perm-world-writable-012-read",
+    "Completion marker exists at /tmp/perm-world-writable-012-complete"
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/perm-world-writable-012-complete"
+  },
+  "postLabReview": {
+    "summary": "You practiced audit hygiene in a safe container.",
+    "skillsPracticed": [
+      "Find World-Writable Files reinforces everyday sysadmin skills.",
+      "Always verify files with ls -l after creating markers.",
+      "Repeat the lab to build muscle memory."
+    ]
+  },
+  "xpReward": 80,
+  "unlockRequirements": {
+    "minLevel": 3,
+    "requiredLabs": [
+      "perm-sudoers-011"
+    ]
+  }
+}

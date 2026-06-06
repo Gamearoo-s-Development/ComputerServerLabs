@@ -1,0 +1,18 @@
+{
+  "name": "@sysadmin-game/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared schemas, types, and lab format utilities for Computer Server Labs",
+  "license": "MPL-2.0",
+  "type": "module",
+  "exports": {
+    "./branding/*": "./branding/*",
+    "./workstations/*": "./workstations/*",
+    "./network/*": "./network/*",
+    "./lab/*": "./lab/*",
+    "./lab-format/*": "./lab-format/*"
+  },
+  "scripts": {
+    "test": "node --test workstations/*.test.js network/*.test.js lab-format/*.test.js"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "id": "beginner-linux-001",
+  "title": "First Linux Login",
+  "difficulty": "Easy",
+  "category": "Linux Basics",
+  "description": "Connect to an isolated training server, locate hidden training material, and complete the exercise from inside the lab environment.",
+  "hideDirectSshCommand": false,
+  "workstation": {
+    "recommended": "ubuntu-terminal",
+    "supported": ["ubuntu-terminal", "debian-terminal", "desktop-container-windows"],
+    "preferredCapabilities": ["linux"],
+    "required": false,
+    "reason": "This lab works best from a Linux terminal. Windows Desktop is supported if you prefer a full desktop — use OpenSSH or PowerShell to SSH to the training server."
+  },
+  "runtime": "docker",
+  "docker": {
+    "image": "sysadmin-game/beginner-linux-001:latest",
+    "buildPath": "..",
+    "ports": [{ "container": 22, "protocol": "tcp", "purpose": "ssh" }],
+    "env": {}
+  },
+  "credentials": {
+    "host": "127.0.0.1",
+    "generatedPerSession": true,
+    "passwordLength": 16
+  },
+  "variation": {
+    "enabled": true,
+    "credentials": { "randomizeUsername": true },
+    "flags": {
+      "formats": ["SGQ-{HEX4}-LINUX", "TRAINING-SSH-{HEX4}", "LABFLAG-{HEX4}"]
+    },
+    "flagFile": {
+      "basename": ".hidden_flag",
+      "locations": ["/home/${username}/", "/opt/training/", "/srv/backup/", "/var/tmp/"]
+    },
+    "decoys": {
+      "pickMin": 2,
+      "pickMax": 4,
+      "pool": [
+        { "id": "old_backup", "type": "file", "path": "/home/${username}/.old_backup" },
+        { "id": "readme", "type": "file", "path": "/home/${username}/readme.txt" },
+        { "id": "training_log", "type": "log", "path": "/var/log/training-warning.log" },
+        { "id": "fake_flag", "type": "file", "path": "/home/${username}/.old_flag" }
+      ]
+    },
+    "commandGuide": { "rotate": true }
+  },
+  "tasks": [
+    "Open the lab terminal and connect to the training server",
+    "Search the environment for hidden training material (try ls -la and find)",
+    "Read the file and note its contents",
+    "Submit your answers in the lab panel — the lab completes automatically when all objectives are done"
+  ],
+  "objectivesPublic": [
+    {
+      "id": "ssh-login",
+      "label": "Connect to the training server",
+      "text": "SSH from the Lab Terminal using your session credentials.",
+      "hint": "Session credentials are unique to this run — copy them from the lab panel into your SSH command."
+    },
+    {
+      "id": "find-flag",
+      "label": "Locate the hidden training file",
+      "text": "Search for dotfiles — the real flag may be outside your home directory.",
+      "prompt": "What is the hidden training filename?",
+      "hint": "Hidden names start with a dot. Search common training paths; ignore obvious decoys in your home folder."
+    },
+    {
+      "id": "read-flag",
+      "label": "Read and identify the file contents",
+      "text": "Open the hidden file you identified and note what it contains.",
+      "prompt": "What text is inside the hidden training file?",
+      "hint": "Print the file to the terminal — compare with decoy files so you submit the real training content."
+    }
+  ],
+  "objectives": [
+    { "id": "ssh-login", "autoCheck": "fileExists", "path": "/tmp/objective-ssh-login" },
+    {
+      "id": "find-flag",
+      "autoCheck": "manual",
+      "answerKey": "flagFilename"
+    },
+    {
+      "id": "read-flag",
+      "autoCheck": "manual",
+      "answerKey": "trainingFlag",
+      "answerConfig": { "allowContains": true }
+    },
+    { "id": "lab-complete", "autoCheck": "fileExists", "path": "/tmp/lab-complete" }
+  ],
+  "setupSecrets": ["trainingFlag", "flagFilename"],
+  "questions": [],
+  "commandGuide": {
+    "enabled": true,
+    "categories": ["ssh", "files", "navigation"],
+    "suggestedCommands": [
+      "ssh",
+      "ls",
+      "ls-la",
+      "find",
+      "cat",
+      "pwd",
+      "cd",
+      "whoami"
+    ],
+    "redHerrings": ["systemctl-status", "df-h", "ip-addr", "ps-aux", "chmod", "nginx-t"]
+  },
+  "redHerrings": [
+    { "type": "file", "path": "/home/${username}/.old_backup", "description": "Decoy hidden backup file" },
+    { "type": "file", "path": "/home/${username}/readme.txt", "description": "Misleading readme text" },
+    { "type": "log", "path": "/var/log/training-warning.log", "description": "Unrelated warning log" }
+  ],
+  "validation": {
+    "type": "fileExists",
+    "path": "/tmp/lab-complete"
+  },
+  "xpReward": 100,
+  "unlockRequirements": {
+    "minLevel": 1
+  }
+}
