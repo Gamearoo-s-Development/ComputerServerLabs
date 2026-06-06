@@ -10,6 +10,10 @@ directories:
   output: dist
   buildResources: build
 
+# Merged into packaged package.json (required for .deb — homepage is not a root yml key).
+extraMetadata:
+  homepage: https://computerserverlabs.com
+
 # Application code (out/ from electron-vite) + production dependencies only.
 # @sysadmin-game/shared is bundled into out/ by electron-vite (devDependency) — not copied to node_modules.
 # Labs, config, docs, and assets ship via extraResources (process.resourcesPath).

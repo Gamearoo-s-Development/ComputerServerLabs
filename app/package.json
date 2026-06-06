@@ -4,6 +4,7 @@
   "description": "Computer Server Labs desktop app — Electron lab platform with Docker workstations",
   "license": "MPL-2.0",
   "author": "Computer Server Labs Contributors",
+  "homepage": "https://computerserverlabs.com",
   "type": "module",
   "main": "./out/main/main.js",
   "scripts": {
