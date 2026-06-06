@@ -40,8 +40,7 @@ services:
       dockerfile: website/Dockerfile
       args:
         VITE_DESKTOP_DOWNLOAD_URL: ${DESKTOP_DOWNLOAD_URL:-}
-    ports:
-      - "${WEB_PORT:-8080}:80"
+   
     depends_on:
       api:
         condition: service_healthy
@@ -73,8 +72,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    expose:
-      - "8787"
+  
     healthcheck:
       test:
         [
