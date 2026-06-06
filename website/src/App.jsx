@@ -12,6 +12,7 @@ import UnsubscribePage from './pages/UnsubscribePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import AccountPage from './pages/AccountPage.jsx'
 import SiteHeader from './components/SiteHeader.jsx'
+import { GITHUB_REPO_URL, LICENSE_NAME, LICENSE_URL } from './lib/siteConfig.js'
 
 const SITE_NOTICE_KEY = 'sgq_site_notice'
 
@@ -229,8 +230,17 @@ export default function App() {
       ) : null}
 
       <footer className="site-footer">
-        <p>&copy; {new Date().getFullYear()} Computer Server Labs. All rights reserved.</p>
-        <p className="site-footer__note">Hands-on server and system administration training.</p>
+        <p>&copy; {new Date().getFullYear()} Computer Server Labs</p>
+        <p className="site-footer__note">
+          Free, open-source hands-on sysadmin training. Licensed under{' '}
+          <a href={LICENSE_URL} target="_blank" rel="noopener noreferrer">
+            {LICENSE_NAME}
+          </a>
+          .{' '}
+          <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">
+            Source on GitHub
+          </a>
+        </p>
       </footer>
     </div>
   )

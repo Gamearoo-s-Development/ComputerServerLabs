@@ -6,6 +6,12 @@
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? ''
 
+export const GITHUB_REPO_URL =
+  import.meta.env.VITE_GITHUB_REPO_URL?.trim() || 'https://github.com/Gamearoo-s-Development/ComputerServerLabs'
+
+export const LICENSE_NAME = 'MPL-2.0'
+export const LICENSE_URL = 'https://mozilla.org/MPL/2.0/'
+
 /** @type {string | null} */
 let cachedDesktopUrl = import.meta.env.VITE_DESKTOP_DOWNLOAD_URL?.trim() || null
 

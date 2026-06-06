@@ -1,5 +1,6 @@
 import React from 'react'
 import DownloadAppButton from './DownloadAppButton.jsx'
+import { GITHUB_REPO_URL } from '../lib/siteConfig.js'
 
 export default function SiteHeader({ page, user, onNavigate, onLogout, onResendVerification }) {
   const navLink = (id, label, active = false) => (
@@ -83,6 +84,14 @@ export default function SiteHeader({ page, user, onNavigate, onLogout, onResendV
         {navLink('publish', 'Publish')}
         {navLink('leaderboard', 'Leaderboard')}
         {navLink('link-device', 'Link app')}
+        <a
+          href={GITHUB_REPO_URL}
+          className="nav__link btn-ghost btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Source
+        </a>
       </nav>
     </header>
   )
