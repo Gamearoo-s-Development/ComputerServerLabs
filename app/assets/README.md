@@ -4,8 +4,13 @@ Application branding and icons bundled via `extraResources` when packaged.
 
 | File | Purpose |
 |------|---------|
-| `icon.png` | Primary app icon (Linux AppImage/deb, dev window icon) |
+| `icon.png` | Square app icon (Windows/Linux installers, taskbar, favicon) |
+| `logo.png` | Wordmark for in-app sidebar (lives in `src/renderer/public/`) |
 
-Windows NSIS builds currently use this PNG via electron-builder. For production releases, generate `build/icon.ico` — see [build/ICON.md](../build/ICON.md).
+Regenerate both from artwork:
 
-Source copy also lives at `resources/icon.png` for electron-vite / dev tooling.
+```bash
+node scripts/install-brand-logo.mjs path/to/new-logo.png
+```
+
+That updates logos, transparency, and all `icon.png` copies under `app/assets/`, `app/resources/`, etc.

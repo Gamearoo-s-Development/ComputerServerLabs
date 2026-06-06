@@ -65,6 +65,8 @@ win:
   icon: assets/icon.png
 
 linux:
+  # AppImage + deb — build on Linux/WSL/CI (mksquashfs/fakeroot not available on Windows hosts).
+  # On Windows use: npm run package:linux  (linux-unpacked via --dir only).
   target:
     - target: AppImage
       arch:

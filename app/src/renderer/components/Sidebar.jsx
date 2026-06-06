@@ -61,7 +61,7 @@ export default function Sidebar({ activeId, onNavigate, collapsed = false, onTog
       >
         <img
           src={collapsed ? '/icon.png' : '/logo.png'}
-          alt=""
+          alt={GAME_UI.appName}
           className={cn(
             'm-0 block shrink-0 border-0 bg-transparent p-0 object-contain object-left',
             collapsed ? 'h-9 w-9' : 'h-9 w-auto max-w-[11.5rem]'

@@ -137,6 +137,43 @@ npm run dev
 
 In the app: start a lab → **Open Lab Terminal**. If PTY loaded, native rebuild succeeded.
 
+## Packaging
+
+### Windows installer (on Windows)
+
+From repo root:
+
+```powershell
+npm install
+npm --workspace app run package:win
+```
+
+Output: `app/dist/Computer Server Labs-<version>-win-x64.exe`
+
+### Linux (AppImage / deb)
+
+**AppImage** needs `mksquashfs` (from `squashfs-tools`). **deb** needs Linux packaging tools. electron-builder cannot create AppImage on a plain Windows host — you will see:
+
+```text
+mksquashfs: file does not exist
+failed to build AppImage
+```
+
+| Where you build | Command | Output |
+|-----------------|---------|--------|
+| **Windows** (smoke test) | `npm --workspace app run package:linux` | `app/dist/linux-unpacked/` only |
+| **Linux / WSL / CI** | `npm --workspace app run package:linux:release` | AppImage + `.deb` |
+
+**WSL example** (Ubuntu, repo on `C:\Dev\SysAdminGame`):
+
+```bash
+cd /mnt/c/Dev/SysAdminGame
+npm install
+npm --workspace app run package:linux:release
+```
+
+Single targets: `package:linux:appimage` or `package:linux:deb`.
+
 ## Related docs
 
 - [security-electron-notes.md](security-electron-notes.md) — pinned Electron version and mitigations  

@@ -19,9 +19,12 @@
     "validate:labs": "node scripts/validate-lab-catalog.mjs",
     "test:labs": "node scripts/test-lab-catalog.mjs",
     "patch:lab-progression": "node scripts/generate-lab-catalog.mjs --progression-only",
+    "brand:icons": "node scripts/install-brand-icons.mjs",
+    "brand:install": "node scripts/install-brand-logo.mjs",
     "postinstall": "patch-package --patch-dir app/patches && npm --workspace app run rebuild:native --if-present"
   },
   "devDependencies": {
-    "patch-package": "8.0.1"
+    "patch-package": "8.0.1",
+    "sharp": "^0.34.2"
   }
 }

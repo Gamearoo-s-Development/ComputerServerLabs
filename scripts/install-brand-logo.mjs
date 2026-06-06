@@ -37,9 +37,19 @@ const convert = spawnSync(process.execPath, ['scripts/make-logo-transparent.mjs'
   stdio: 'inherit'
 })
 if (convert.status !== 0) {
-  console.warn('Transparency step failed — run: npm install sharp --no-save && node scripts/make-logo-transparent.mjs')
+  console.warn('Transparency step failed — run: npm install sharp --save-dev && node scripts/make-logo-transparent.mjs')
   process.exit(convert.status ?? 1)
 }
 
+const icons = spawnSync(process.execPath, ['scripts/install-brand-icons.mjs', path.join(repoRoot, 'shared/branding/logo.png')], {
+  cwd: repoRoot,
+  stdio: 'inherit'
+})
+if (icons.status !== 0) {
+  console.warn('Icon step failed — run: npm install sharp --save-dev && node scripts/install-brand-icons.mjs')
+  process.exit(icons.status ?? 1)
+}
+
 console.log('Done (transparent PNG, transparent margins trimmed, artwork preserved).')
+console.log('App icons updated for packaging (app/assets/icon.png, etc.).')
 console.log('Optional: node scripts/make-logo-transparent.mjs --enhance  (slight brighten for dark pages)')

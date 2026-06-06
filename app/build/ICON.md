@@ -6,7 +6,15 @@ The Linux and development builds use `assets/icon.png`.
 
 ## Generate from `assets/icon.png`
 
-Use any of these approaches locally (do not commit secrets or third-party installers):
+Icons should match the current brand logo. After updating artwork:
+
+```bash
+node scripts/install-brand-logo.mjs path/to/logo.png
+```
+
+That regenerates `assets/icon.png` (512×512) from `shared/branding/logo.png`.
+
+Use any of these approaches locally for Windows `.ico` (do not commit secrets or third-party installers):
 
 ### Option A — electron-icon-builder
 

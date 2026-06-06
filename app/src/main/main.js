@@ -24,10 +24,12 @@ import {
 import { getAllSettings } from './settingsManager.js'
 import { getPreloadPath, resolveIconPath } from './utils/paths.js'
 import { logger } from './utils/logger.js'
+import { APP_NAME } from '@sysadmin-game/shared/branding/appBrand.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 applyElectronProcessHardening()
+app.setName(APP_NAME)
 
 const WINDOW_BG = '#0f1117'
 const TITLEBAR_COLOR = '#12151c'
@@ -90,7 +92,7 @@ function createWindow() {
     show: false,
     autoHideMenuBar: true,
     backgroundColor: WINDOW_BG,
-    title: 'Computer Server Labs',
+    title: APP_NAME,
     ...(icon ? { icon } : {}),
     webPreferences: getSecureWebPreferences(preloadPath)
   })
