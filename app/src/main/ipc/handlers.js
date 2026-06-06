@@ -101,6 +101,7 @@ import { openDesktopViewerWindow } from '../desktopViewerWindowManager.js'
 import { formatTerminalDebugLog, getTerminalDebugLog } from '../terminalDebug.js'
 import { checkPtyAvailable } from '../terminalManager.js'
 import { fail, fromError, ok } from './response.js'
+import { importLocalLabPack } from '../online/labPackVerifier.js'
 import { confirmAndOpenExternal } from '../security/electronSecurity.js'
 import { requireDeveloperMode } from '../security/devGate.js'
 import {
@@ -443,6 +444,26 @@ export function registerIpcHandlers(mainWindow) {
       return ok(labManager.listLabs())
     } catch (error) {
       return fromError('labs.list', error, 'LABS_LIST_FAILED')
+    }
+  })
+
+  ipcMain.handle('labs:importLabPack', async (_event, payload) => {
+    const win = BrowserWindow.getFocusedWindow() ?? mainWindowRef
+    try {
+      const { canceled, filePaths } = await dialog.showOpenDialog(win ?? undefined, {
+        properties: ['openFile'],
+        filters: [{ name: 'Lab pack', extensions: ['zip'] }]
+      })
+      if (canceled || !filePaths?.[0]) {
+        return fail('CANCELLED', 'Import cancelled')
+      }
+      const zipBuffer = fs.readFileSync(filePaths[0])
+      const result = importLocalLabPack(zipBuffer, {
+        confirmUnverified: payload?.confirmUnverified === true
+      })
+      return ok(result)
+    } catch (error) {
+      return fromError('labs.importLabPack', error, 'LAB_IMPORT_FAILED')
     }
   })
 

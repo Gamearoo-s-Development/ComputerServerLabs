@@ -248,7 +248,7 @@ export default function Labs({ onNavigate }) {
   const [runtime, setRuntime] = useState('all')
   const [status, setStatus] = useState('all')
   const [progressionFilter, setProgressionFilter] = useState('all')
-  const [sourceFilter, setSourceFilter] = useState('bundled')
+  const [sourceFilter, setSourceFilter] = useState('all')
   const [sortBy, setSortBy] = useState('default')
   const [hideInvalid, setHideInvalid] = useState(false)
   const [hideCommunityDefinitions, setHideCommunityDefinitions] = useState(true)
@@ -295,6 +295,8 @@ export default function Labs({ onNavigate }) {
   })
   const [recoverableDesktopSetups, setRecoverableDesktopSetups] = useState([])
   const [recoveryModalOpen, setRecoveryModalOpen] = useState(false)
+  const [importingLabPack, setImportingLabPack] = useState(false)
+  const [importConfirm, setImportConfirm] = useState(null)
   const [sessionRestoreAttempted, setSessionRestoreAttempted] = useState(false)
   const labsPageRef = useRef(null)
 
@@ -445,11 +447,52 @@ export default function Labs({ onNavigate }) {
     setRuntime('all')
     setStatus('all')
     setProgressionFilter('all')
-    setSourceFilter('bundled')
+    setSourceFilter('all')
     setSortBy('default')
     setHideInvalid(false)
     setHideCommunityDefinitions(true)
   }, [])
+
+  const importLabPack = useCallback(
+    async (confirmUnverified = false) => {
+      const api = getApi()
+      if (!api?.labs?.importLabPack) return
+      setImportingLabPack(true)
+      try {
+        const res = await api.labs.importLabPack({ confirmUnverified })
+        if (res?.error?.code === 'CANCELLED') return
+        if (res?.data?.needsConfirmation) {
+          setImportConfirm({
+            labId: res.data.labId,
+            warning: res.data.warning ?? 'This lab pack is not cryptographically signed.'
+          })
+          return
+        }
+        if (res?.ok && res.data?.ok !== false) {
+          setImportConfirm(null)
+          notify({
+            title: res.data?.verified ? 'Lab pack installed' : 'Lab pack imported',
+            body:
+              res.data?.warning ??
+              `${res.data?.labId ?? 'Lab'} is ready in your local lab list.`,
+            tone: res.data?.verified ? 'success' : 'warning'
+          })
+          await loadLabs()
+        } else {
+          notify({
+            title: 'Import failed',
+            body: res?.error?.message ?? res?.data?.verification?.message ?? 'Unknown error',
+            tone: 'danger'
+          })
+        }
+      } catch (e) {
+        notify({ title: 'Import failed', body: String(e), tone: 'danger' })
+      } finally {
+        setImportingLabPack(false)
+      }
+    },
+    [loadLabs, notify]
+  )
 
   const openWorkstationPicker = useCallback((labId) => {
     const labMeta = labs.find((l) => l.id === labId)
@@ -1075,15 +1118,39 @@ export default function Labs({ onNavigate }) {
           }
           action={
             inActiveLab ? null : (
-              <Button variant="secondary" size="sm" onClick={loadLabs} disabled={loading}>
-                Refresh
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => void importLabPack()}
+                  disabled={importingLabPack}
+                >
+                  {importingLabPack ? 'Importing…' : 'Import lab pack'}
+                </Button>
+                <Button variant="secondary" size="sm" onClick={loadLabs} disabled={loading}>
+                  Refresh
+                </Button>
+              </div>
             )
           }
         />
       ) : null}
 
       {showLabsPageChrome && !hideLabBrowser ? <DockerOnboarding onNavigate={onNavigate} /> : null}
+
+      {importConfirm && !inActiveLab ? (
+        <Card className="border-warning/50 bg-warning/10">
+          <p className="text-sm text-warning">{importConfirm.warning}</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button size="sm" onClick={() => void importLabPack(true)}>
+              I understand — install anyway
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setImportConfirm(null)}>
+              Cancel
+            </Button>
+          </div>
+        </Card>
+      ) : null}
 
       {stoppingLab ? (
         <Card className="border-accent/30 bg-accent/5">

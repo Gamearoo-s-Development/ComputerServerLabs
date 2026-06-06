@@ -217,6 +217,58 @@ export function uninstallOnlineLab(labId) {
   return { labId: id, uninstalled: true }
 }
 
+/**
+ * Install a local .zip lab pack (sideload / downloaded file).
+ * @param {Buffer} zipBuffer
+ * @param {{ confirmUnverified?: boolean }} [options]
+ */
+export function importLocalLabPack(zipBuffer, options = {}) {
+  const verification = verifyLabPack(zipBuffer, {})
+  if (!verification.ok) {
+    throw new Error(verification.message ?? 'Lab pack verification failed')
+  }
+
+  const labId = verification.lab?.id
+  if (!labId || typeof labId !== 'string') {
+    throw new Error('lab.json must include a string id')
+  }
+
+  if (
+    !options.confirmUnverified &&
+    (!verification.verified || verification.trustLevel !== 'verified')
+  ) {
+    return {
+      ok: false,
+      needsConfirmation: true,
+      labId,
+      warning:
+        verification.warning ??
+        'Only import lab packs from sources you trust. Review files before deploying.',
+      trustLevel: verification.trustLevel,
+      verification
+    }
+  }
+
+  const installed = installLabPack(zipBuffer, labId)
+  clearLabCache()
+
+  logger.info('onlineLabRegistry', 'Lab imported from local pack', {
+    labId,
+    installPath: installed.installPath,
+    trustLevel: verification.trustLevel
+  })
+
+  return {
+    ok: true,
+    labId,
+    installPath: installed.installPath,
+    verified: verification.verified,
+    trustLevel: verification.trustLevel,
+    warning: verification.warning,
+    checksum: verification.checksum
+  }
+}
+
 export function listInstalledOnlineLabs() {
   const root = getOnlineLabsRoot()
   if (!fs.existsSync(root)) return []

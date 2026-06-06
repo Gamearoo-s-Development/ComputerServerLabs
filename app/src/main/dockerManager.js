@@ -6,6 +6,7 @@
 
 import fs from 'fs'
 import net from 'net'
+import path from 'path'
 import { detectDocker, isDockerReady, resolveDockerCommand } from './toolDetection.js'
 import {
   DOCKER_RUNTIME_WSL_KVM,
@@ -248,6 +249,22 @@ export async function pullImage(tag, options = {}) {
 }
 
 /**
+ * Docker expects -f paths relative to the build context (forward slashes).
+ * Absolute Windows paths (especially with spaces) break BuildKit include pattern parsing.
+ * @param {string} buildContext
+ * @param {string} dockerfilePath
+ */
+function resolveDockerfileForBuild(buildContext, dockerfilePath) {
+  const context = path.resolve(buildContext)
+  const dockerfile = path.resolve(dockerfilePath)
+  const relative = path.relative(context, dockerfile)
+  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error(`Dockerfile must be inside the build context (${buildContext})`)
+  }
+  return relative.replace(/\\/g, '/')
+}
+
+/**
  * @param {string} buildPath absolute path to build context
  * @param {string} tag
  * @param {{ labId?: string, sessionId?: string, resourceRole?: string, lifecycle?: string, dockerfile?: string, noCache?: boolean, entrypointVersion?: string, platform?: string }} [options]
@@ -255,7 +272,7 @@ export async function pullImage(tag, options = {}) {
 export async function buildImage(buildPath, tag, options = {}) {
   const args = ['build', '-t', tag]
   if (options.dockerfile) {
-    args.push('-f', options.dockerfile)
+    args.push('-f', resolveDockerfileForBuild(buildPath, options.dockerfile))
   }
   if (options.platform) {
     args.push('--platform', options.platform)

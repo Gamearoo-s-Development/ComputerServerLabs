@@ -63,6 +63,7 @@ contextBridge.exposeInMainWorld('api', {
 
   labs: {
     list: () => invoke('labs:list'),
+    importLabPack: (payload) => invoke('labs:importLabPack', payload),
     get: (labId) => invoke('labs:get', labId),
     incidentBriefing: (labId) => invoke('labs:incidentBriefing', labId),
     readAttachment: (labId, filename) => invoke('labs:readAttachment', labId, filename),
