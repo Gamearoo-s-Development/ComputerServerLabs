@@ -11,6 +11,8 @@ import VerifyEmailPage from './pages/VerifyEmailPage.jsx'
 import UnsubscribePage from './pages/UnsubscribePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import AccountPage from './pages/AccountPage.jsx'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx'
+import TermsPage from './pages/TermsPage.jsx'
 import SiteHeader from './components/SiteHeader.jsx'
 import { GITHUB_REPO_URL, LICENSE_NAME, LICENSE_URL } from './lib/siteConfig.js'
 
@@ -52,6 +54,12 @@ function readRouteFromUrl() {
   }
   if (path.endsWith('/labs') || path === '/labs') {
     return { page: 'labs', token: null }
+  }
+  if (path.endsWith('/privacy') || path === '/privacy') {
+    return { page: 'privacy', token: null }
+  }
+  if (path.endsWith('/terms') || path === '/terms') {
+    return { page: 'terms', token: null }
   }
   if (path === '/' || path === '') {
     return { page: 'home', token: null }
@@ -228,9 +236,16 @@ export default function App() {
           onDone={(next) => navigate(next ?? 'home')}
         />
       ) : null}
+      {page === 'privacy' ? <PrivacyPolicyPage /> : null}
+      {page === 'terms' ? <TermsPage /> : null}
 
       <footer className="site-footer">
         <p>&copy; {new Date().getFullYear()} Computer Server Labs</p>
+        <p className="site-footer__links">
+          <a href="/privacy">Privacy Policy</a>
+          <span aria-hidden="true"> · </span>
+          <a href="/terms">Terms of Service</a>
+        </p>
         <p className="site-footer__note">
           Free, open-source hands-on sysadmin training. Licensed under{' '}
           <a href={LICENSE_URL} target="_blank" rel="noopener noreferrer">

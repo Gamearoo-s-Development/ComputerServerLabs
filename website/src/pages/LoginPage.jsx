@@ -61,6 +61,12 @@ export default function LoginPage({ onAuthed, onForgotPassword }) {
       </div>
       {info ? <p style={{ color: '#86efac', marginTop: '0.75rem' }}>{info}</p> : null}
       {error ? <p style={{ color: '#f87171' }}>{error}</p> : null}
+      {mode === 'register' ? (
+        <p className="legal-consent" style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '0.85rem', lineHeight: 1.5 }}>
+          By creating an account, you agree to our{' '}
+          <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.
+        </p>
+      ) : null}
     </section>
   )
 }
