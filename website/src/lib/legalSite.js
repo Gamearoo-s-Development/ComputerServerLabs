@@ -12,4 +12,10 @@ export const SITE_URL =
 export const SITE_CONTACT_EMAIL =
   import.meta.env.VITE_SITE_CONTACT_EMAIL?.trim() || 'support@computerserverlabs.com'
 
+export const SITE_ABUSE_EMAIL =
+  import.meta.env.VITE_SITE_ABUSE_EMAIL?.trim() || 'abuse@computerserverlabs.com'
+
+export const SITE_REPORT_EMAIL =
+  import.meta.env.VITE_SITE_REPORT_EMAIL?.trim() || 'report@computerserverlabs.com'
+
 export const LEGAL_EFFECTIVE_DATE = 'May 29, 2026'

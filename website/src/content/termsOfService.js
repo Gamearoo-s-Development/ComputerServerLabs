@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { LEGAL_EFFECTIVE_DATE, SITE_CONTACT_EMAIL, SITE_NAME, SITE_URL } from '../lib/legalSite.js'
+import { LEGAL_EFFECTIVE_DATE, SITE_ABUSE_EMAIL, SITE_CONTACT_EMAIL, SITE_NAME, SITE_REPORT_EMAIL, SITE_URL } from '../lib/legalSite.js'
 import { LICENSE_NAME } from '../lib/siteConfig.js'
 
 export const termsOfService = {
@@ -51,7 +51,16 @@ export const termsOfService = {
       paragraphs: [
         'We have zero tolerance for illegal labs, attachments, or other content on the registry. This includes CSAM, non-consensual imagery, content that promotes violence or terrorism, and any other material that is unlawful in the jurisdictions where we operate or where the content is accessed.',
         'If we discover or receive credible reports of such content, we will remove it immediately, disable associated lab packs and accounts, and preserve relevant records as required by law. We may report illegal content and cooperating account information to law enforcement or appropriate authorities.',
+        `Report illegal or prohibited content to ${SITE_ABUSE_EMAIL}. For other lab or catalog concerns, email ${SITE_REPORT_EMAIL}.`,
         'Users must not attempt to upload, disguise, or distribute prohibited material through lab packs, descriptions, attachments, reviews, or any other part of the service.'
+      ]
+    },
+    {
+      heading: 'Reports and abuse',
+      paragraphs: [
+        `Use ${SITE_REPORT_EMAIL} to report suspicious, misleading, malicious, or policy-violating labs and catalog content (include the lab name, URL, and what you observed).`,
+        `Use ${SITE_ABUSE_EMAIL} for abuse reports, illegal content, CSAM, harassment, spam, security incidents, and urgent trust-and-safety issues.`,
+        'We review reports as promptly as practicable. Urgent illegal-content reports are prioritized for immediate removal and may be forwarded to law enforcement where required.'
       ]
     },
     {
@@ -112,7 +121,11 @@ export const termsOfService = {
     },
     {
       heading: 'Contact',
-      paragraphs: [`Questions about these Terms: ${SITE_CONTACT_EMAIL}`]
+      paragraphs: [
+        `General questions about these Terms: ${SITE_CONTACT_EMAIL}`,
+        `Lab and catalog reports: ${SITE_REPORT_EMAIL}`,
+        `Abuse and illegal content: ${SITE_ABUSE_EMAIL}`
+      ]
     }
   ]
 }

@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { LEGAL_EFFECTIVE_DATE, SITE_CONTACT_EMAIL, SITE_NAME, SITE_URL } from '../lib/legalSite.js'
+import { LEGAL_EFFECTIVE_DATE, SITE_ABUSE_EMAIL, SITE_CONTACT_EMAIL, SITE_NAME, SITE_REPORT_EMAIL, SITE_URL } from '../lib/legalSite.js'
 
 export const privacyPolicy = {
   title: 'Privacy Policy',
@@ -105,7 +105,11 @@ export const privacyPolicy = {
     },
     {
       heading: 'Contact',
-      paragraphs: [`Questions about this policy: ${SITE_CONTACT_EMAIL}`]
+      paragraphs: [
+        `Privacy questions: ${SITE_CONTACT_EMAIL}`,
+        `Report suspicious labs or catalog content: ${SITE_REPORT_EMAIL}`,
+        `Report abuse or illegal content: ${SITE_ABUSE_EMAIL}`
+      ]
     }
   ]
 }

@@ -15,6 +15,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx'
 import TermsPage from './pages/TermsPage.jsx'
 import SiteHeader from './components/SiteHeader.jsx'
 import { GITHUB_REPO_URL, LICENSE_NAME, LICENSE_URL } from './lib/siteConfig.js'
+import { SITE_ABUSE_EMAIL, SITE_REPORT_EMAIL } from './lib/legalSite.js'
 
 const SITE_NOTICE_KEY = 'sgq_site_notice'
 
@@ -245,6 +246,10 @@ export default function App() {
           <a href="/privacy">Privacy Policy</a>
           <span aria-hidden="true"> · </span>
           <a href="/terms">Terms of Service</a>
+          <span aria-hidden="true"> · </span>
+          <a href={`mailto:${SITE_REPORT_EMAIL}`}>Report content</a>
+          <span aria-hidden="true"> · </span>
+          <a href={`mailto:${SITE_ABUSE_EMAIL}`}>Report abuse</a>
         </p>
         <p className="site-footer__note">
           Free, open-source hands-on sysadmin training. Licensed under{' '}
