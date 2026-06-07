@@ -40,9 +40,18 @@ export const termsOfService = {
       list: [
         'Do not attempt to break, overload, or circumvent security controls on the registry or other users\' accounts.',
         'Do not upload malware, exploit payloads, or lab packs designed to harm hosts when safety controls are bypassed.',
+        'Do not upload, publish, or distribute illegal content of any kind, including child sexual abuse material (CSAM), exploitation material, or other content that violates applicable law.',
         'Do not harass other users, spam reviews, or publish misleading or infringing content.',
         'Do not scrape or automate access in a way that degrades the service for others.',
         'Do not use the service for unlawful purposes.'
+      ]
+    },
+    {
+      heading: 'Illegal and prohibited content',
+      paragraphs: [
+        'We have zero tolerance for illegal labs, attachments, or other content on the registry. This includes CSAM, non-consensual imagery, content that promotes violence or terrorism, and any other material that is unlawful in the jurisdictions where we operate or where the content is accessed.',
+        'If we discover or receive credible reports of such content, we will remove it immediately, disable associated lab packs and accounts, and preserve relevant records as required by law. We may report illegal content and cooperating account information to law enforcement or appropriate authorities.',
+        'Users must not attempt to upload, disguise, or distribute prohibited material through lab packs, descriptions, attachments, reviews, or any other part of the service.'
       ]
     },
     {
@@ -58,7 +67,7 @@ export const termsOfService = {
       list: [
         'You represent that you have the right to publish content you upload and that it does not violate others\' intellectual property or privacy rights.',
         'You grant us a license to host, distribute, and display your lab pack through the registry so other users can download and use it for training.',
-        'We may remove, disable, or flag lab packs that appear malicious, violate these Terms, or receive credible abuse reports.',
+        'We may remove, disable, or flag lab packs that appear malicious, violate these Terms, contain illegal or prohibited content, or receive credible abuse reports.',
         'Download counts, ratings, and metadata may be displayed publicly as part of the catalog.'
       ]
     },
