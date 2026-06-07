@@ -37,13 +37,31 @@ export const termsOfService = {
     },
     {
       heading: 'Acceptable use',
+      paragraphs: [
+        'We want the registry to stay useful, safe, and welcoming for learners and authors. You may use the service for legitimate training and community contribution when you follow these Terms.'
+      ],
       list: [
-        'Do not attempt to break, overload, or circumvent security controls on the registry or other users\' accounts.',
-        'Do not upload malware, exploit payloads, or lab packs designed to harm hosts when safety controls are bypassed.',
-        'Do not upload, publish, or distribute illegal content of any kind, including child sexual abuse material (CSAM), exploitation material, or other content that violates applicable law.',
-        'Do not harass other users, spam reviews, or publish misleading or infringing content.',
-        'Do not scrape or automate access in a way that degrades the service for others.',
-        'Do not use the service for unlawful purposes.'
+        'Download and run lab packs for personal learning, practice, and skill development in the desktop application.',
+        'Create a free account, link your desktop app, and optionally sync progress or join the leaderboard.',
+        'Browse the catalog, leave honest reviews, and share feedback on labs you have actually used.',
+        'Publish original training labs and scenarios you have the right to distribute, with accurate descriptions and metadata.',
+        'Report suspicious, misleading, or abusive catalog content through the reporting addresses listed in these Terms.',
+        'Use the desktop app locally without an online account for bundled labs included with the application.',
+        'Fork, self-host, or contribute to the open-source project under the MPL-2.0 license.'
+      ]
+    },
+    {
+      heading: 'Unacceptable use',
+      paragraphs: [
+        'The following conduct is prohibited. We may remove content, suspend accounts, or take other action when we find violations.'
+      ],
+      list: [
+        'Attempting to break, overload, or circumvent security controls on the registry or other users\' accounts.',
+        'Uploading malware, exploit payloads, or lab packs designed to harm hosts when safety controls are bypassed.',
+        'Uploading, publishing, or distributing illegal content of any kind, including child sexual abuse material (CSAM), exploitation material, or other content that violates applicable law.',
+        'Harassing other users, spamming reviews, or publishing misleading, fraudulent, or infringing content.',
+        'Scraping or automating access in a way that degrades the service for others.',
+        'Using the service for any unlawful purpose or in violation of these Terms.'
       ]
     },
     {
